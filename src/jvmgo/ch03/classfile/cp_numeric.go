@@ -2,7 +2,8 @@ package classfile
 
 import "math"
 
-/*  xinxin.shi
+/*  3.3.3 : CONSTANT_Integer_info
+    xinxin.shi
     2017-06-03 16:56:56
 */
 
@@ -14,11 +15,11 @@ CONSTANT_Integer_info {
 使用4字节存储整数数据
 */
 
-type ConstantIntergerInfo struct {
+type ConstantIntegerInfo struct {
     val int32
 }
 
-func (self *ConstantIntergerInfo) readInfo(reader *ClassReader) {
+func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) {
     bytes := reader.readUint32()
     self.val = int32(bytes)
 }
@@ -31,7 +32,7 @@ CONSTANT_Float_info {
 使用4字节存储IEEE754单精度浮点数常量
 */
 type ConstantFloatInfo struct {
-    var float32;
+    val float32
 }
 
 func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {

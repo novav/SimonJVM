@@ -26,7 +26,7 @@ func (self *ClassReader) readUint64() uint64 {
 	self.data = self.data[8:]
 	return val
 }
-func (self *ClassReader) readUint16s() []uint64 {
+func (self *ClassReader) readUint16s() []uint16 {
 	n := self.readUint16()	// 表的大小有uint16的数据指出
 	s := make([]uint16, n)
 	for i := range s {

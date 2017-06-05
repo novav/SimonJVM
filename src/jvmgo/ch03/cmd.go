@@ -28,7 +28,7 @@ func parseCmd() *Cmd {
 		cmd.class = args[0]
 		cmd.args = args[1:]
 	}
-	fmt.Printf("len: %d ; cmd.class = args[0]: %s ; cmd.args = args[1:]: %s ;\n", len(args) ,cmd.class , cmd.args)
+	fmt.Println("len: %d ; cmd.class = args[0]: %s ; cmd.args = args[1:]: %s ;\n", len(args) ,cmd.class , cmd.args)
 	return cmd
 }
 

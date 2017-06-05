@@ -1,7 +1,24 @@
 package classfile
 
-/*  xinxin.shi
+/*  
+    3.2.8 MemberInfo
+    xinxin.shi
     2017-06-02
+
+field_info {
+    u2             access_flags;
+    u2             name_index;
+    u2             descriptor_index;
+    u2             attributes_count;
+    attribute_info attributes[attributes_count];
+}
+method_info {
+    u2             access_flags;
+    u2             name_index;
+    u2             descriptor_index;
+    u2             attributes_count;
+    attribute_info attributes[attributes_count];
+}
 */
 
 type MemberInfo struct {
@@ -9,10 +26,11 @@ type MemberInfo struct {
     accessFlags         uint16          // 访问标志
     nameIndex           uint16          // 常量池索引--字段/方法名
     descriptorIndex     uint16          // 常量池索引--字段/方法描述符
-    attributes          []attributes    // 属性表
+    attributes          []AttributeInfo    // 属性表
 }
 
-func readMembers(reader *ClassReader, cp ConstantPool) *MemberInfo {
+// read field or method table
+func readMembers(reader *ClassReader, cp ConstantPool) []*MemberInfo {
     memberCount := reader.readUint16()
     members := make([]*MemberInfo, memberCount)
     for i := range members {
@@ -21,7 +39,7 @@ func readMembers(reader *ClassReader, cp ConstantPool) *MemberInfo {
     return members
 }
 
-func readMember (reader *ClassReader, cp ConstantPool) []*MemberInfo {
+func readMember (reader *ClassReader, cp ConstantPool) *MemberInfo {
     return &MemberInfo{
         cp:                 cp,
         accessFlags:        reader.readUint16(),
@@ -31,8 +49,8 @@ func readMember (reader *ClassReader, cp ConstantPool) []*MemberInfo {
     }
 }
 
-func (self *MemberInfo)AccessFlags() uint16 {
-    
+func (self *MemberInfo) AccessFlags() uint16 {
+	return self.accessFlags
 }
 
 func (self *MemberInfo) Name() string {
