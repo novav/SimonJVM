@@ -1,3 +1,8 @@
+/*
+    5.10.2　tableswitch指令
+    xinxin.shi    
+    2017-06-21 00:01:38
+*/
 package control
 
 import "jvmgo/ch05/instructions/base"
