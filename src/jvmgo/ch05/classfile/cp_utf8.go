@@ -93,3 +93,14 @@ func decodeMUTF8s(bytearr []byte) string {
 	runes := utf16.Decode(chararr)
 	return string(runes)
 }
+
+
+func (self *MemberInfo) CodeAttribute() *CodeAttribute{
+    for _, attrInfo := range self.attributes {
+    	switch attrInfo.(type) {
+    	case *CodeAttribute: 
+    		return attrInfo.(*CodeAttribute)
+    	}
+    }
+    return nil
+}
