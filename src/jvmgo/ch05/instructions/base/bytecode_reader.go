@@ -6,7 +6,7 @@ package base
     2017-06-12 21:04:00
 */
 type BytecodeReader struct {
-    code    []byte
+	code    []byte // bytecodes
     pc      int
 }
 
@@ -15,14 +15,17 @@ func (self *BytecodeReader) Reset(code []byte, pc int) {
     self.pc = pc
 }
 
+func (self *BytecodeReader) PC() int {
+	return self.pc
+}
+
+func (self *BytecodeReader) ReadInt8() int8 {
+	return int8(self.ReadUint8())
+}
 func (self *BytecodeReader) ReadUint8() uint8{
     i := self.code[self.pc]
     self.pc++
     return i
-}
-
-func (self *BytecodeReader) ReadInt8() int8{
-    return int8(self.ReadUint8())
 }
 
 func (self *BytecodeReader) ReadUint16() uint16{
@@ -44,6 +47,7 @@ func (self *BytecodeReader) ReadInt32() int32{
     return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4
 }
 
+// used by lookupswitch and tableswitch
 func (self *BytecodeReader) ReadInt32s(n int32) []int32 {
     ints := make([]int32, n)
     for i := range ints {
@@ -52,6 +56,7 @@ func (self *BytecodeReader) ReadInt32s(n int32) []int32 {
     return ints
 }
 
+// used by lookupswitch and tableswitch
 func (self *BytecodeReader) SkipPadding () {
     for self.pc%4 != 0 {
         self.ReadUint8()

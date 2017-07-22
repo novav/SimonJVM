@@ -6,8 +6,8 @@
 package base
 import "jvmgo/ch05/rtda"
 
-func Branch(frame *rtda.Franme, offset int) {
+func Branch(frame *rtda.Frame, offset int) {
     pc := frame.Thread().PC()
     nextPC := pc + offset
-    frame.SetNextPc(nextPC)
+    frame.SetNextPC(nextPC)
 }

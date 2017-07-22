@@ -1,7 +1,7 @@
 package rtda
 
 type Thread struct {
-    pc      int
+    pc      int // the address of the instruction currently being executed
     stack   *Stack  // Java虚拟机栈指针 4.3.2
 }
 
@@ -31,6 +31,6 @@ func (self *Thread) CurrentFrame() *Frame {
     return self.stack.top()
 }
 
-func (self *Thread) NewThread(maxLocals, maxStack uint) *Frame {
-    return newFrame(self, maxLocals, maxStack)
+func (self *Thread) NewFrame(maxLocals, maxStack uint) *Frame {
+	return newFrame(self, maxLocals, maxStack)
 }

@@ -3,7 +3,7 @@ package constants
 import "jvmgo/ch05/instructions/base"
 import "jvmgo/ch05/rtda"
 
-// Do nathing
+// Do nothing
 
 /*
     Chap 5.3.1

@@ -7,10 +7,10 @@ type Frame struct {
     operandStack    *OperandStack
 	// todo
     thread          *Thread
-    nextPC          int
+	nextPC       int // the next instruction after the call
 }
 
-func NewFrame(thread *Therad, maxLocals, maxStack uint) *Frame {
+func newFrame(thread *Thread, maxLocals, maxStack uint) *Frame {
     return &Frame {
         thread:         thread,
         localVars:      newLocalVars(maxLocals),
@@ -24,4 +24,14 @@ func (self *Frame) LocalVars() LocalVars {
 }
 func (self *Frame) OperandStack() *OperandStack {
 	return self.operandStack
+}
+
+func (self *Frame) Thread() *Thread {
+	return self.thread
+}
+func (self *Frame) NextPC() int {
+	return self.nextPC
+}
+func (self *Frame) SetNextPC(nextPC int) {
+	self.nextPC = nextPC
 }
