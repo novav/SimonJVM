@@ -1,10 +1,10 @@
 package main
 
 import "fmt"
-import "jvmgo/ch05/classfile"
-import "jvmgo/ch05/instructions"
-import "jvmgo/ch05/instructions/base"
-import "jvmgo/ch05/rtda"
+import "jvmgo/ch06/classfile"
+import "jvmgo/ch06/instructions"
+import "jvmgo/ch06/instructions/base"
+import "jvmgo/ch06/rtda"
 
 func interpret(methodInfo *classfile.MemberInfo) {
     codeAttr := methodInfo.CodeAttribute()
