@@ -2,7 +2,7 @@ package heap
 import "fmt"
 import "jvmgo/ch06/classfile"
 /*
-    Chap 6.1
+    Chap 6.2
     运行时常量池
     xinxin.shi
     2017-07-27 23:55:44
