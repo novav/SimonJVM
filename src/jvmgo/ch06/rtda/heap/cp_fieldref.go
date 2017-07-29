@@ -13,7 +13,7 @@ type FieldRef struct {
 }
 
 func newFieldRef (cp *ConstantPool, 
-      refInfo *classfile.ConstantFieldrefInfo) {
+      refInfo *classfile.ConstantFieldrefInfo) *FieldRef {
     ref := &FieldRef{}
     ref.cp = cp
     ref.copyMemberRefInfo(&refInfo.COnstantMemberrefInfo)
