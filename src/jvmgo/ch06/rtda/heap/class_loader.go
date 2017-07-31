@@ -92,6 +92,77 @@ func verify(class *Class) {
     // todo
 }
 
+/*chap6.4*/
 func prepare(class *Class) {
-    
+    calcInstanceFieldSlotIds(class)
+    calcStaticFieldSlotIds(class)
+    allocAndInitStaticVars(class)
+}
+
+/*计算实例字段的个数，同时给它们编号*/
+func calcInstanceFieldSlotIds(class *Class) {
+    slotId := uint(0)
+    if class.superClass != nil {
+        slotId = class.superClass.instanceSlotCount
+    }
+    for _, field := range class.fields {
+        if !field.IsStatic() {
+            field.slotId = slotId
+            slotId ++
+            if field.isLongOrDouble() {
+                slotId ++
+            }
+        }
+    }
+    class.instanceSlotCount = slotId
+}
+
+/*计算静态字段的个数，同时给它们编号*/
+func calcStaticFieldSlotIds(class *Class) {
+    slotId := uint(0)
+    for _, field := range class.fields {
+        if field.IsStatic() {
+            field.slotId = slotId
+            slotId ++
+            if field.isLongOrDouble() {
+                slotId++
+            }
+        }
+    }
+    class.staticSlotCount  = slotId
+}
+
+/*给类变量分配空间，然后给它们赋予初始值*/
+func allocAndInitStaticVars(class *Class) {
+    class.staticVars = newSlots(class.staticSlotCount)
+    for _, field := range class.fields {
+        if field.IsStatic() && field IsFinal() {
+            initStaticFinalVar(class, field)
+        }
+    }
+}
+
+func initStaticFinalVar(class *Class, field *Field) {
+    vars := class.staticVars
+    cp := class.constantPool
+    cpIndex := field.ConstValueIndex()
+    slotId := field.SlotId()
+    if cpIndex > 0 {
+        switch field.Descriptor() {
+            case "Z", "B", "C", "S", "I":
+                val := cp.GetConstant(cpIndex).(int32)
+                vars.setInt(slotId, val)
+            case "J":
+                val := cp.GetConstant(cpIndex).(int64)
+                vars.SetLong(slotId, val)
+            case "F":
+                val := cp.GetConstant(cpIndex).(float32)
+                vars.SetFloat(slotId, val)
+            case "D":
+                val := cp.GetConstant(cpIndex).(float64)
+                vars.SetDouble(slotId, val)
+            case "Ljava/lang/String" :
+                panic("todo") // chap 8
+        }
+    }
 }

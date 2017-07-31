@@ -62,3 +62,12 @@ func (self *MemberInfo) Descriptor() string {
     return self.cp.getUtf8(self.descriptorIndex)
 }
 
+func (self *MemberInfo) ConstantValueAttribute() *ConstantValueAttribute {
+    for _, attrinfo := range self.attributes {
+        switch attrinfo.(type) {
+        case *ConstantValueAttribute:
+            return attrinfo.(*ConstantValueAttribute)
+        }
+    }
+    return nil
+}
