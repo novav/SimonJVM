@@ -41,3 +41,14 @@ func newClass(cf *classfile.ClassFile) *Class {
 func (self *Class) IsPublic() bool {
     return 0 != self.accessFlags&ACC_PUBLIC
 }
+
+func (self *Class) isAccessibleTo(other *Class) bool {
+    return self.IsPublic() || self.getPackageName() == other.getPackageName()
+}
+
+func (self *Class) getPackageName() string {
+    if i := strings.LastIndex(self.name, "/"); i >= 0 {
+        return self.name[:i]
+    }
+    return ""
+}
