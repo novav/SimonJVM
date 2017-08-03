@@ -52,3 +52,8 @@ func (self *Class) getPackageName() string {
     }
     return ""
 }
+
+/* 6.6.1 */
+func (self *Class) NewObject() *Object {
+    return newObject(self)
+}
