@@ -5,14 +5,15 @@ type Frame struct {
 	lower           *Frame // stack is implemented as linked list
     localVars       LocalVars
     operandStack    *OperandStack
-	// todo
     thread          *Thread
+	method          *heap.Method
 	nextPC       int // the next instruction after the call
 }
 
 func newFrame(thread *Thread, maxLocals, maxStack uint) *Frame {
     return &Frame {
         thread:         thread,
+        method:         method,
         localVars:      newLocalVars(maxLocals),
         operandStack:   newOperandStack(maxStack),
     }
