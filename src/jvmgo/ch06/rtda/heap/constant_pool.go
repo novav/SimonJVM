@@ -37,20 +37,22 @@ func newConstantPool(class *Class, cfCp classfile.ConstantPool ) *ConstantPool {
             i++
         case *classfile.ConstantStringInfo:
             stringInfo := cpInfo.(*classfile.ConstantStringInfo)
-            consts[i] = stringInfo.Value() // string
+            consts[i] = stringInfo.String() // string
 
         case *classfile.ConstantClassInfo:
-            classInfo := cpInfo.(*classInfo.ConstantClassInfo)
+            classInfo := cpInfo.(*classfile.ConstantClassInfo)
             consts[i] = newClassRef(rtCp, classInfo) // 6.2.1
         case *classfile.ConstantFieldrefInfo:
             fieldrefInfo := cpInfo.(*classfile.ConstantFieldrefInfo)
             consts[i] = newFieldRef(rtCp, fieldrefInfo) // 6.2.2
-        case *classFile.ConstantMethodrefInfo:
+        case *classfile.ConstantMethodrefInfo:
             methodrefInfo := cpInfo.(*classfile.ConstantMethodrefInfo)
             consts[i] = newMethodRef(rtCp, methodrefInfo) // 6.2.3
         case *classfile.ConstantInterfaceMethodrefInfo:
             methodrefInfo := cpInfo.(*classfile.ConstantInterfaceMethodrefInfo)
             consts[i] = newInterfaceMethodRef(rtCp, methodrefInfo) // 6.2.4
+		default:
+			// todo
         }
     }
     return rtCp    
@@ -60,5 +62,5 @@ func (self *ConstantPool) GetConstant(index uint) Constant {
     if c := self.consts[index]; c != nil {
         return c
     }
-    panic(fmt.Sprintf("No constant at index %d", index))
+    panic(fmt.Sprintf("No constants at index %d", index))
 }

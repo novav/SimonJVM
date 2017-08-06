@@ -16,26 +16,26 @@ func newFieldRef (cp *ConstantPool,
       refInfo *classfile.ConstantFieldrefInfo) *FieldRef {
     ref := &FieldRef{}
     ref.cp = cp
-    ref.copyMemberRefInfo(&refInfo.COnstantMemberrefInfo)
+    ref.copyMemberRefInfo(&refInfo.ConstantMemberrefInfo)
     return ref
 }    
 
 /*6.5.2*/
 func (self *FieldRef) ResolvedField() *Field {
     if self.field == nil {
-        self.resolvedFieldRef()
+        self.resolveFieldRef()
     }
     return self.field
 }
 
-func (self *FieldRef) resolvedFieldRef() {
+func (self *FieldRef) resolveFieldRef() {
     d := self.cp.class
     c := self.ResolvedClass()
     field := lookupField(c, self.name, self.descriptor)
     if field == nil {
         panic("java.lang.NoSuchFieldError")
     }
-    if !field.isAccessAbleTo(d) {
+    if !field.isAccessibleTo(d) {
         panic("java.lang.IllegalAccessError")
     }
     self.field = field

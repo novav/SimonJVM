@@ -4,7 +4,7 @@
     2017-08-05 23:21:54
 */
 
-package costants
+package constants
 
 import "jvmgo/ch06/instructions/base"
 import "jvmgo/ch06/rtda"
@@ -13,10 +13,10 @@ type LDC struct { base.Index8Instruction }
 type LDC_W struct { base.Index16Instruction }
 type LDC2_W struct { base.Index16Instruction }
 
-func (self LDC) Execute(frame *rtda.Frame) {
-    _ldc(frame, self.Index)
+func (self *LDC) Execute(frame *rtda.Frame) {
+	_ldc(frame, self.Index)
 }
-func (self LDC_W) Execute(frame *rtda.Frame) {
+func (self *LDC_W) Execute(frame *rtda.Frame) {
     _ldc(frame, self.Index)
 }
 
@@ -29,6 +29,7 @@ func _ldc(frame *rtda.Frame, index uint) {
         case float32: stack.PushFloat(c.(float32))
         // case string  --> chap8
         // case *heap.ClassRef  --> chap9
+	// case MethodType, MethodHandle
         default: panic("todo: ldc!")
     }
 }
@@ -40,8 +41,7 @@ func (self *LDC2_W) Execute(frame *rtda.Frame) {
     c := cp.GetConstant(self.Index)
     switch c.(type) {
         case int64: stack.PushLong(c.(int64))
-        case float64: stack.PushLong(c.(float64))
-        default: panic ("java.lang.ClassFormateError")
-        }   
+        case float64: stack.PushDouble(c.(float64))
+        default: panic ("java.lang.ClassFormatError")
     }
 }

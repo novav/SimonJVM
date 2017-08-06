@@ -7,9 +7,9 @@ xinxin.shi
 2017-07-29 22:41:07
 */
 
-type InterfaceMethodRef {
-    MemberRef
-    method *Method 
+type InterfaceMethodRef struct {
+	MemberRef
+	method *Method
 }
 
 func newInterfaceMethodRef(cp *ConstantPool,
@@ -18,4 +18,17 @@ func newInterfaceMethodRef(cp *ConstantPool,
     ref.cp = cp
     ref.copyMemberRefInfo(&refInfo.ConstantMemberrefInfo)
     return ref
+}
+
+func (self *InterfaceMethodRef) ResolvedInterfaceMethod() *Method {
+	if self.method == nil {
+		self.resolveInterfaceMethodRef()
+	}
+	return self.method
+}
+
+// jvms8 5.4.3.4
+func (self *InterfaceMethodRef) resolveInterfaceMethodRef() {
+	//class := self.ResolveClass()
+	// todo
 }

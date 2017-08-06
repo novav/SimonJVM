@@ -1,4 +1,5 @@
 package heap
+
 import "fmt"
 import "jvmgo/ch06/classfile"
 import "jvmgo/ch06/classpath"
@@ -25,6 +26,7 @@ func NewClassLoader(cp *classpath.Classpath) *ClassLoader {
 
 func (self *ClassLoader) LoadClass(name string) *Class {
     if class, ok := self.classMap[name]; ok {
+		// already loaded
         return class // 类已经加载
     }
     return self.loadNonArrayClass(name)
@@ -39,9 +41,9 @@ func (self *ClassLoader) loadNonArrayClass(name string) *Class {
 }
 
 func (self *ClassLoader) readClass(name string) ([]byte, classpath.Entry) {
-    data, entry, err := self.cp.ReadClass(name);
+    data, entry, err := self.cp.ReadClass(name)
     if err != nil {
-        panic("java.lang.ClassNotFountException: " + name)
+        panic("java.lang.ClassNotFoundException: " + name)
     }
     return data, entry
 }
@@ -51,8 +53,8 @@ func (self *ClassLoader) readClass(name string) ([]byte, classpath.Entry) {
 func (self *ClassLoader) defineClass(data []byte) *Class {
     class := parseClass(data)
     class.loader = self
-    resolvedSuperClass(class)
-    resolvedInterfaces(class)
+    resolveSuperClass(class)
+    resolveInterfaces(class)
     self.classMap[class.name] = class
     return class
 }
@@ -60,19 +62,20 @@ func (self *ClassLoader) defineClass(data []byte) *Class {
 func parseClass(data []byte) *Class{
     cf, err := classfile.Parse(data)
     if err != nil {
-        panic("java.lang.ClassFormateError")
+		//panic("java.lang.ClassFormatError")
+		panic(err)
     }
     return newClass(cf) // 6.1.1
 }
 
-func resolvedSuperClass(class *Class) {
+func resolveSuperClass(class *Class) {
     if class.name != "java/lang/Object" {
         class.superClass = class.loader.LoadClass(class.superClassName)
     }
 }
 
 
-func resolvedInterfaces(class *Class) {
+func resolveInterfaces(class *Class) {
     interfaceCount := len(class.interfaceNames)
     if interfaceCount > 0 {
         class.interfaces = make([]*Class, interfaceCount)
@@ -136,7 +139,7 @@ func calcStaticFieldSlotIds(class *Class) {
 func allocAndInitStaticVars(class *Class) {
     class.staticVars = newSlots(class.staticSlotCount)
     for _, field := range class.fields {
-        if field.IsStatic() && field IsFinal() {
+        if field.IsStatic() && field.IsFinal() {
             initStaticFinalVar(class, field)
         }
     }
@@ -147,11 +150,12 @@ func initStaticFinalVar(class *Class, field *Field) {
     cp := class.constantPool
     cpIndex := field.ConstValueIndex()
     slotId := field.SlotId()
+
     if cpIndex > 0 {
         switch field.Descriptor() {
             case "Z", "B", "C", "S", "I":
                 val := cp.GetConstant(cpIndex).(int32)
-                vars.setInt(slotId, val)
+                vars.SetInt(slotId, val)
             case "J":
                 val := cp.GetConstant(cpIndex).(int64)
                 vars.SetLong(slotId, val)
@@ -161,7 +165,7 @@ func initStaticFinalVar(class *Class, field *Field) {
             case "D":
                 val := cp.GetConstant(cpIndex).(float64)
                 vars.SetDouble(slotId, val)
-            case "Ljava/lang/String" :
+            case "Ljava/lang/String;" :
                 panic("todo") // chap 8
         }
     }

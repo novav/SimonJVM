@@ -1,4 +1,5 @@
 package references 
+
 import "jvmgo/ch06/instructions/base"
 import "jvmgo/ch06/rtda"
 import "jvmgo/ch06/rtda/heap"
@@ -12,9 +13,9 @@ import "jvmgo/ch06/rtda/heap"
 //Check whether object is of given type
 
 
-type CHECK_CASE struct { base.Index16Instruction }
+type CHECK_CAST struct { base.Index16Instruction }
 
-func (self *CHECK_CASE) Execute(frame *rtda.Frame) {
+func (self *CHECK_CAST) Execute(frame *rtda.Frame) {
    stack := frame.OperandStack()
    ref := stack.PopRef() 
    stack.PushRef(ref)

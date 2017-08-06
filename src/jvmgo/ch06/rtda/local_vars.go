@@ -1,5 +1,7 @@
 package rtda
+
 import "math"
+import "jvmgo/ch06/rtda/heap"
 
 type LocalVars []Slot
 

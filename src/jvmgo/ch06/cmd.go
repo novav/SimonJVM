@@ -2,6 +2,8 @@ package main
 import "flag"
 import "fmt"
 import "os"
+
+// java [-options] class [args...]
 type Cmd struct {
 	helpFlag 	bool
 	versionFlag bool

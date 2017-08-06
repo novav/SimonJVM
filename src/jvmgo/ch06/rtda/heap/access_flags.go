@@ -1,7 +1,7 @@
 package heap
 
 const (
-    ACC_PUBLIC              = 0x0001    // class field mathod 
+    ACC_PUBLIC              = 0x0001    // class field method 
     ACC_PRIVATE             = 0x0002    // 
     ACC_PROTECTED           = 0x0004
     ACC_STATIC              = 0x0008
@@ -18,5 +18,5 @@ const (
     ACC_STRICT              = 0x0800
     ACC_SYNTHETIC           = 0x1000
 	ACC_ANNOTATION 			= 0x2000
-    ACC_EBUM                = 0x4000
+	ACC_ENUM                = 0x4000 // class field
 )
