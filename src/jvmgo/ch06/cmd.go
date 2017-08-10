@@ -1,4 +1,5 @@
 package main
+
 import "flag"
 import "fmt"
 import "os"
@@ -15,7 +16,7 @@ type Cmd struct {
 
 func parseCmd() *Cmd {
 	cmd := &Cmd{}
-	
+
 	flag.Usage = printUsage
 	flag.BoolVar(&cmd.helpFlag, "help", false, "print help message")
 	flag.BoolVar(&cmd.helpFlag, "?", false, "print help message")
@@ -23,9 +24,9 @@ func parseCmd() *Cmd {
 	flag.StringVar(&cmd.cpOption, "classpath", "", "classpath")
 	flag.StringVar(&cmd.cpOption, "cp", "", "classpath")
 	flag.StringVar(&cmd.XjreOption, "Xjre", "", "path to jre")
-	flag.Parse(); //WWW
-	
-	args := flag.Args();
+	flag.Parse() //WWW
+
+	args := flag.Args()
 	if len(args) > 0 {
 		cmd.class = args[0]
 		cmd.args = args[1:]
