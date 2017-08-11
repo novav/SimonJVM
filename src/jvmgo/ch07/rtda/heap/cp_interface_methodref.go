@@ -28,7 +28,34 @@ func (self *InterfaceMethodRef) ResolvedInterfaceMethod() *Method {
 }
 
 // jvms8 5.4.3.4
+/*
+    7.2.2
+    接口方法符号引用的解析
+*/
 func (self *InterfaceMethodRef) resolveInterfaceMethodRef() {
 	//class := self.ResolveClass()
 	// todo
+    d := self.cp.class
+    c := self.ResolveClass()
+    if !c.IsInterface() {
+        panic("java.lang.IncompatibleClassChangeError")
+    }
+    method := lookupInterfaceMethod(c, self.name, self.descriptor)
+    if method == nil {
+        panic("java.lang.NoSuchMethodError")
+    }
+    if !method.isAccessibleTo(d) {
+        panic("java.lang.IllegalAccessError")
+    }
+    self.method = method
+}
+
+
+func lookupInterfaceMethod(iface *Class, name, descriptor string) *Method {
+    for _, method := range iface.methods {
+        if method.name == name && method.descriptor == descriptor {
+            return method
+        }
+    }
+    return lookupMethodInInterfaces(iface.interfaces, name, descriptor)
 }
