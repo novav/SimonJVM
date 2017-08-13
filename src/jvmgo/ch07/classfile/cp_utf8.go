@@ -25,14 +25,18 @@ func (self *ConstantUtf8Info) readInfo(reader *ClassReader) {
     self.str = decodeMUTF8(bytes)
 }
 
-func decodeMUTF8(bytes []byte) string {
-    return string(bytes)
+func (self *ConstantUtf8Info) Str() string {
+	return self.str
 }
-
+/*
+func decodeMUTF8(bytes []byte) string {
+	return string(bytes) // not correct!
+}
+*/
 
 // mutf8 -> utf16 -> utf32 -> string
 // see java.io.DataInputStream.readUTF(DataInput)
-func decodeMUTF8s(bytearr []byte) string {
+func decodeMUTF8(bytearr []byte) string {
 	utflen := len(bytearr)
 	chararr := make([]uint16, utflen)
 
@@ -92,15 +96,4 @@ func decodeMUTF8s(bytearr []byte) string {
 	chararr = chararr[0:chararr_count]
 	runes := utf16.Decode(chararr)
 	return string(runes)
-}
-
-
-func (self *MemberInfo) CodeAttribute() *CodeAttribute{
-    for _, attrInfo := range self.attributes {
-    	switch attrInfo.(type) {
-    	case *CodeAttribute: 
-    		return attrInfo.(*CodeAttribute)
-    	}
-    }
-    return nil
 }

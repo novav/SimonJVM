@@ -12,23 +12,32 @@ LineNumberTable_attribute {
 LineNumberTable 属性表存放方法的行号信息，
 LocalVariableTable 属性表中存放方法的局部变量信息。
 */
-
 type LineNumberTableAttribute struct {
-    lineNumberTable []*LineNumberTableEntry
+	lineNumberTable []*LineNumberTableEntry
 }
 
 type LineNumberTableEntry struct {
-    startPc    uint16
-    lineNumber uint16
+	startPc    uint16
+	lineNumber uint16
 }
 
 func (self *LineNumberTableAttribute) readInfo(reader *ClassReader) {
-    lineNumberTableLength := reader.readUint16()
-    self.lineNumberTable = make([]*LineNumberTableEntry, lineNumberTableLength)
-    for i := range self.lineNumberTable {
-        self.lineNumberTable[i] = &LineNumberTableEntry{
-            startPc:    reader.readUint16(),
-            lineNumber: reader.readUint16(),
-        }
-    }    
+	lineNumberTableLength := reader.readUint16()
+	self.lineNumberTable = make([]*LineNumberTableEntry, lineNumberTableLength)
+	for i := range self.lineNumberTable {
+		self.lineNumberTable[i] = &LineNumberTableEntry{
+			startPc:    reader.readUint16(),
+			lineNumber: reader.readUint16(),
+		}
+	}
+}
+
+func (self *LineNumberTableAttribute) GetLineNumber(pc int) int {
+	for i := len(self.lineNumberTable) - 1; i >= 0; i-- {
+		entry := self.lineNumberTable[i]
+		if pc >= int(entry.startPc) {
+			return int(entry.lineNumber)
+		}
+	}
+	return -1
 }

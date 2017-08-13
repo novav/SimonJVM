@@ -12,6 +12,13 @@ import "jvmgo/ch07/classpath"
     xinxin.shi
     2017-07-30 21:02:06
 */
+/*
+class names:
+    - primitive types: boolean, byte, int ...
+    - primitive arrays: [Z, [B, [I ...
+    - non-array classes: java/lang/Object ...
+    - array classes: [Ljava/lang/Object; ...
+    */
 type ClassLoader struct {
     cp          *classpath.Classpath
     verboseFlag bool
