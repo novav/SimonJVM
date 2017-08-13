@@ -8,6 +8,23 @@ package control
 import "jvmgo/ch07/instructions/base"
 import "jvmgo/ch07/rtda"
 
+/*
+tableswitch
+<0-3 byte pad>
+defaultbyte1
+defaultbyte2
+defaultbyte3
+defaultbyte4
+lowbyte1
+lowbyte2
+lowbyte3
+lowbyte4
+highbyte1
+highbyte2
+highbyte3
+highbyte4
+jump offsets...
+*/
 //Access jump table by index and jump
 
 type TABLE_SWITCH struct {

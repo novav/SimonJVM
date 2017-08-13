@@ -2,8 +2,11 @@ package references
 
 import "jvmgo/ch07/instructions/base"
 import "jvmgo/ch07/rtda"
+import "jvmgo/ch07/rtda/heap"
 
-type INVOKE_SPECIAL struct { base.Index16Instruction }
+// Invoke instance method;
+// special handling for superclass, private, and instance initialization method invocations
+type INVOKE_SPECIAL struct{ base.Index16Instruction }
 
 // hack!
 
@@ -20,30 +23,30 @@ func (self *INVOKE_SPECIAL) Execute(frame *rtda.Frame) {
     if resolvedMethod.IsStatic() {
         panic("java.lang.IncompatibleClassChangeError")
     }
-    ref := frame.OperandStack().GetRefFromTop(resolvedMethod.ArgSlotCount())
+	ref := frame.OperandStack().GetRefFromTop(resolvedMethod.ArgSlotCount() - 1)
     if ref == nil {
-        panic("java.lang.NullPointException")
+		panic("java.lang.NullPointerException")
     }
     if resolvedMethod.IsProtected() &&
-        resolvedMethod.IsSuperClassOf(currentClass) &&
-        resolvedMethod.GetPackageName() != currentClass.GetPackageName() &&
+		resolvedMethod.Class().IsSuperClassOf(currentClass) &&
+		resolvedMethod.Class().GetPackageName() != currentClass.GetPackageName() &&
         ref.Class() != currentClass &&
         !ref.Class().IsSubClassOf(currentClass) {
             panic("java.lang.IllegalAccessError")
     }
 
-    methodBeInvoked := resolvedMethod
+	methodToBeInvoked := resolvedMethod
     if currentClass.IsSuper() && 
         resolvedClass.IsSuperClassOf(currentClass) && 
         resolvedMethod.Name() != "<init>" {
-            methdoToInvoked = heap.LookupMethodInClass(currentClass.SuperClass(), 
+		methodToBeInvoked = heap.LookupMethodInClass(currentClass.SuperClass(),
                 methodRef.Name(), methodRef.Descriptor())
     }
 
-    if methdoToInvoked == nil || methdoToInvoked.IsAbstract() {
+	if methodToBeInvoked == nil || methodToBeInvoked.IsAbstract() {
         panic("java.lang.AbstractMethodError")
     }
-    base.InvokeMethod(frame, methdoToInvoked)
+	base.InvokeMethod(frame, methodToBeInvoked)
 
     
 }

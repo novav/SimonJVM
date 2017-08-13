@@ -30,10 +30,10 @@ func  (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
     if ref == nil {
         // hack!
         if methodRef.Name() == "println" {
-            _println(frame.OperandStack(), methodRef.Descriptor());
+            _println(frame.OperandStack(), methodRef.Descriptor())
             return
         }
-        panic("java.lang.NullPointerExeception")
+		panic("java.lang.NullPointerException")
     }
 
     if resolvedMethod.IsProtected() &&
@@ -68,8 +68,7 @@ func _println(stack *rtda.OperandStack, descriptor string) {
             case "(D)V": 
                 fmt.Printf("%v\n", stack.PopDouble())
             default : 
-                panic("println : " + methodRef.Descriptor())
+                panic("println : " + descriptor)
         }
         stack.PopRef()
-    }
 }

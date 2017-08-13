@@ -36,7 +36,7 @@ func (self *InterfaceMethodRef) resolveInterfaceMethodRef() {
 	//class := self.ResolveClass()
 	// todo
     d := self.cp.class
-    c := self.ResolveClass()
+    c := self.ResolvedClass()
     if !c.IsInterface() {
         panic("java.lang.IncompatibleClassChangeError")
     }

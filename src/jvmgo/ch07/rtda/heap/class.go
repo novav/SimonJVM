@@ -22,6 +22,7 @@ type Class struct {
     instanceSlotCount   uint 
     staticSlotCount     uint
     staticVars          Slots
+	initStarted       bool
 }
 
 // ClassFile -> Class 结构体
@@ -64,29 +65,51 @@ func (self *Class) IsEnum() bool {
 }
 
 // getters
+func (self *Class) Name() string {
+	return self.name
+}
 func (self *Class) ConstantPool() *ConstantPool {
 	return self.constantPool
+}
+func (self *Class) Fields() []*Field {
+	return self.fields
+}
+func (self *Class) Methods() []*Method {
+	return self.methods
+}
+func (self *Class) SuperClass() *Class {
+	return self.superClass
 }
 func (self *Class) StaticVars() Slots {
 	return self.staticVars
 }
+func (self *Class) InitStarted() bool {
+	return self.initStarted
+}
+
+func (self *Class) StartInit() {
+	self.initStarted = true
+}
 
 // jvms 5.4.4
 func (self *Class) isAccessibleTo(other *Class) bool {
-    return self.IsPublic() || 
-        self.getPackageName() == other.getPackageName()
+	return self.IsPublic() ||
+		self.GetPackageName() == other.GetPackageName()
 }
 
-func (self *Class) getPackageName() string {
-    if i := strings.LastIndex(self.name, "/"); i >= 0 {
-        return self.name[:i]
-    }
-    return ""
+func (self *Class) GetPackageName() string {
+	if i := strings.LastIndex(self.name, "/"); i >= 0 {
+		return self.name[:i]
+	}
+	return ""
 }
 
 
 func (self *Class) GetMainMethod() *Method {
     return self.getStaticMethod("main", "([Ljava/lang/String;)V")
+}
+func (self *Class) GetClinitMethod() *Method {
+	return self.getStaticMethod("<clinit>", "()V")
 }
 
 func (self *Class) getStaticMethod(name, descriptor string) *Method {
