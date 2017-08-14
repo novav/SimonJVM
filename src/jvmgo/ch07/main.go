@@ -31,6 +31,7 @@ func startJVM(cmd *Cmd) {
 	classLoader := heap.NewClassLoader(cp, cmd.verboseClassFlag)
 
 	className := strings.Replace(cmd.class, ".", "/", -1)
+    fmt.Printf("Main】classLoaer:" + className + "\n")
 	mainClass := classLoader.LoadClass(className)
 	mainMethod := mainClass.GetMainMethod()
 	if mainMethod != nil {

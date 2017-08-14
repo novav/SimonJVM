@@ -1,6 +1,7 @@
 package classpath
 
 import "os"
+import "fmt"
 import "path/filepath"
 
 type Classpath struct {
@@ -61,6 +62,7 @@ func (self *Classpath) parseUserClasspath(cpOption string) {
 // className: fully/qualified/ClassName
 func (self *Classpath) ReadClass(className string) ([]byte, Entry, error) {
 	className = className + ".class"
+	fmt.Println("classpath】 L64:" + className)
 	if data, entry, err := self.bootClasspath.readClass(className); err == nil {
 		return data, entry, err
 	}

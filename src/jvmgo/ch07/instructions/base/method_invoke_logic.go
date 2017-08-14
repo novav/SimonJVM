@@ -20,7 +20,7 @@ func InvokeMethod(invokerFrame *rtda.Frame, method *heap.Method) {
         }
     }
 
-    // hack!
+    // 前面的代码不变，下面是 hack
 	if method.IsNative() {
 		if method.Name() == "registerNatives" {
 			thread.PopFrame()

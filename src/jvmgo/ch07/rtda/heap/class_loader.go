@@ -32,7 +32,7 @@ func NewClassLoader(cp *classpath.Classpath, verboseFlag bool) *ClassLoader {
         classMap: make(map[string]*Class),
     }
 }
-
+ 
 func (self *ClassLoader) LoadClass(name string) *Class {
     if class, ok := self.classMap[name]; ok {
 		// already loaded
