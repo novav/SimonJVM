@@ -1,5 +1,6 @@
 package classpath 
 	import "os"
+	import "fmt"
 	import "path/filepath"
 	
 	type Classpath struct {
@@ -10,6 +11,8 @@ package classpath
 
 	//Parse（）函数使用-Xjre选项解析启动类路径和扩展类路径，使用-classpath/-cp选项解析用户类路径，代码如下：
 	func Parse(jreOption, cpOption string) *Classpath {
+		fmt.Println("classpath】 14 jreOption:" + jreOption)
+		fmt.Println("classpath】 14 cpOption:" + cpOption)
 		cp := &Classpath{}	//contructor
 		cp.parseBootAndExtClasspath(jreOption)
 		cp.parseUserClasspath(cpOption)
@@ -18,6 +21,7 @@ package classpath
 
 	func (self *Classpath) ReadClass(className string) ([]byte, Entry, error) {
 		className = className + ".class"
+        fmt.Println("classpath】 L22:" + className)
 		if data, entry, err := self.bootClasspath.readClass(className); err == nil {
 			return data, entry, err
 		}
@@ -34,6 +38,7 @@ package classpath
 
 	func (self *Classpath) parseBootAndExtClasspath(jreOption string) {
 		jreDir := getJreDir(jreOption)
+		fmt.Println("classpath】 41 jreDir:" + jreDir)
 		// jre/lib/*
 		jreLibPath := filepath.Join(jreDir, "lib", "*")
 		self.bootClasspath = newWildcardEntry(jreLibPath)
