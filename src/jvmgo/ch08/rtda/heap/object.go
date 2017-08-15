@@ -4,14 +4,15 @@ type Object struct {
     // todo
 //     staticVars *Slots
     class   *Class
-    fields  Slots
+    // fields  Slots
+    data interface{}
 }
 
 /* 6.6.1*/
 func newObject(class *Class) *Object {
     return &Object{
         class: class,
-        fields: newSlots(class.instanceSlotCount),
+        data: newSlots(class.instanceSlotCount),
     }
 }
 
@@ -20,7 +21,7 @@ func (self *Object) Class() *Class {
 	return self.class
 }
 func (self *Object) Fields() Slots {
-	return self.fields
+	return self.data.(Slots)
 }
 
 func (self *Object) IsInstanceOf(class *Class) bool {
