@@ -1,8 +1,8 @@
 package heap
 
 import "fmt"
-import "jvmgo/ch07/classfile"
-import "jvmgo/ch07/classpath"
+import "jvmgo/ch08/classfile"
+import "jvmgo/ch08/classpath"
 
 /*
     6.3
@@ -38,7 +38,27 @@ func (self *ClassLoader) LoadClass(name string) *Class {
 		// already loaded
         return class // 类已经加载
     }
+    if name[0] == '[' {
+        return self.loadArrayClass(name)
+    }
     return self.loadNonArrayClass(name)
+}
+
+/* 8.2.3 */
+func (self *ClassLoader) loadArrayClass(name string) *Class {
+    class := &Class{
+        accessFlags:    ACC_PUBLIC,     // todo
+        name:           name,
+        loader:         self,
+        initStarted:    true,
+        superClass:     self.LoadClass("java/lang/Object"),
+        interfaces:     []*Class{
+            self.LoadClass("java/lang/Cloneable"),
+            self.LoadClass("java/io/Serializable"),
+            },
+    }
+    self.classMap[name] = class
+    return class
 }
 
 func (self *ClassLoader) loadNonArrayClass(name string) *Class {
