@@ -1,4 +1,4 @@
-package jvmgo.ch07;
+package jvmgo.ch08;
 
 public class MyObject {
     public static int staticVar;

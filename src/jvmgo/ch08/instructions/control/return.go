@@ -1,7 +1,7 @@
 package control
 
-import "jvmgo/ch07/instructions/base"
-import "jvmgo/ch07/rtda"
+import "jvmgo/ch08/instructions/base"
+import "jvmgo/ch08/rtda"
 
 // Return void from method
 type RETURN struct{ base.NoOperandsInstruction }

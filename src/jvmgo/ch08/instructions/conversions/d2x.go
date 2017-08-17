@@ -1,7 +1,7 @@
 package conversions
 
-import "jvmgo/ch07/instructions/base"
-import "jvmgo/ch07/rtda"
+import "jvmgo/ch08/instructions/base"
+import "jvmgo/ch08/rtda"
 
 /*  
     5.8　类型转换指令

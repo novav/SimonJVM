@@ -1,4 +1,4 @@
-package jvmgo.book.ch07;
+package jvmgo.book.ch08;
 
 public class GaussTest {
 

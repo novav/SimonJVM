@@ -1,9 +1,9 @@
 package references 
 
 import "fmt"
-import "jvmgo/ch07/instructions/base"
-import "jvmgo/ch07/rtda"
-import "jvmgo/ch07/rtda/heap"
+import "jvmgo/ch08/instructions/base"
+import "jvmgo/ch08/rtda"
+import "jvmgo/ch08/rtda/heap"
 
 // Invoke instance method; dispatch based on class
 /*

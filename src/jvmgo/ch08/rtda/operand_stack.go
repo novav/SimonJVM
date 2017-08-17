@@ -1,7 +1,7 @@
 package rtda
 
 import "math"
-import "jvmgo/ch07/rtda/heap"
+import "jvmgo/ch08/rtda/heap"
 
 type OperandStack struct {
     size    uint

@@ -1,7 +1,7 @@
 package math
 
-import "jvmgo/ch07/instructions/base"
-import "jvmgo/ch07/rtda"
+import "jvmgo/ch08/instructions/base"
+import "jvmgo/ch08/rtda"
 
 // Negate double
 type DNEG struct{ base.NoOperandsInstruction }

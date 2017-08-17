@@ -1,6 +1,6 @@
 package math
-import "jvmgo/ch07/instructions/base"
-import "jvmgo/ch07/rtda"
+import "jvmgo/ch08/instructions/base"
+import "jvmgo/ch08/rtda"
 
 /*
     5.7.4　iinc指令

@@ -13,7 +13,7 @@ func (self *Object) Longs() []int32 { return self.data.([]int64) }
 func (self *Object) Chars() []int32 { return self.data.([]uint16) }
 func (self *Object) Floats() []int32 { return self.data.([]float32) }
 func (self *Object) Doubles() []int32 { return self.data.([]float64) }
-func (self *Object) Refs() []int32 { return self.data.([]*Object) }
+func (self *Object) Refs() []int32 { retu self.data.([]*Object) }
 
 
 func (self *Object) ArrayLength() int32 {

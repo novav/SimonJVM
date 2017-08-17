@@ -1,7 +1,7 @@
 package comparisons
 
-import "jvmgo/ch07/instructions/base"
-import "jvmgo/ch07/rtda"
+import "jvmgo/ch08/instructions/base"
+import "jvmgo/ch08/rtda"
 
 // Compare double
 type DCMPG struct{ base.NoOperandsInstruction }

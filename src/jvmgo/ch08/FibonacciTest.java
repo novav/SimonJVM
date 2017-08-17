@@ -1,4 +1,4 @@
-package jvmgo.ch07;
+package jvmgo.ch08;
 
 public class FibonacciTest {
 public static void main(String[] args) {

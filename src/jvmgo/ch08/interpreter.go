@@ -1,10 +1,10 @@
 package main
 
 import "fmt"
-import "jvmgo/ch07/instructions"
-import "jvmgo/ch07/instructions/base"
-import "jvmgo/ch07/rtda"
-import "jvmgo/ch07/rtda/heap"
+import "jvmgo/ch08/instructions"
+import "jvmgo/ch08/instructions/base"
+import "jvmgo/ch08/rtda"
+import "jvmgo/ch08/rtda/heap"
 
 func interpret(method *heap.Method, logInst bool) {
 	thread := rtda.NewThread()
