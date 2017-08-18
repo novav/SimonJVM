@@ -126,3 +126,8 @@ func (self *Class) getStaticMethod(name, descriptor string) *Method {
 func (self *Class) NewObject() *Object {
     return newObject(self)
 }
+
+func (self *Class) ArrayClass() *Class {
+    arrayClassName := getArrayClassName(self.name)
+    return self.loader.LoadClass(arrayClassName)
+}
