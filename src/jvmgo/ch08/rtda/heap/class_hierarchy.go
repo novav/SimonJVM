@@ -7,16 +7,37 @@ package heap
 
 func (self *Class) isAssignableFrom(other *Class) bool {
 	s, t := other, self
-
 	if s == t {
 		return true
 	}
-
-	if !t.IsInterface() {
-		return s.IsSubClassOf(t)
+	if !s.IsArray() {
+		if !s.IsInterface() {
+			if !t.IsInterface() {
+				return s.IsSubClassOf(t)
+			} else {
+				return s.IsImplements(t)
+			}
+		}else {
+			if !t.IsInterface() {
+				return t.isJlObject()
+			} else {
+				return t.isSuperInterfaceOf(s)
+			}
+		}
 	} else {
-		return s.IsImplements(t)
+		if !t.IsArray() {
+			if !t.IsInterface() {
+				return t.isJlObject()
+			} else {
+				return t.isJlCloneable() || t.isJioSerializable()
+			}
+		} else {
+			sc := s.ComponentClass()
+			tc := s.ComponentClass()
+			return sc == tc || tc.isAssignableFrom(sc)
+		}
 	}
+	return false
 }
 
 // self extends c
