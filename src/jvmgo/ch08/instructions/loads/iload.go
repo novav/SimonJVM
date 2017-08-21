@@ -9,7 +9,7 @@ import "jvmgo/ch08/rtda"
     2017-06-13 23:49:45
 */
 
-// Load init from local variable
+// Load int from local variable
 
 type ILOAD struct { base.Index8Instruction }
 

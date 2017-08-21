@@ -1,124 +1,133 @@
-package loads 
-/*
-    Chap 8.3.4
-    aload系列指令按索引取数组元素值
-    xinxin.shi
-    2017-08-19 18:15:11
-*/
+package stores
+
 import "jvmgo/ch08/instructions/base"
 import "jvmgo/ch08/rtda"
 import "jvmgo/ch08/rtda/heap"
 
-// Load reference from array
-type AALOAD struct{ base.NoOperandsInstruction }
+/*
+    Chap 8.3.5
+	astore <t>astor 指令
+    xinxin.shi
+    2017-08-19 18:15:11
+*/
+// Store into reference array
+type AASTORE struct{ base.NoOperandsInstruction }
 
-func (self *AALOAD) Execute(frame *rtda.Frame) {
+func (self *AASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
+	ref := stack.PopRef()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
 	checkNotNil(arrRef)
 	refs := arrRef.Refs()
 	checkIndex(len(refs), index)
-	stack.PushRef(refs[index])
+	refs[index] = ref
 }
 
-// Load byte or boolean from array
-type BALOAD struct{ base.NoOperandsInstruction }
+// Store into byte or boolean array
+type BASTORE struct{ base.NoOperandsInstruction }
 
-func (self *BALOAD) Execute(frame *rtda.Frame) {
+func (self *BASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
+	val := stack.PopInt()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
 	checkNotNil(arrRef)
 	bytes := arrRef.Bytes()
 	checkIndex(len(bytes), index)
-	stack.PushInt(int32(bytes[index]))
+	bytes[index] = int8(val)
 }
 
-// Load char from array
-type CALOAD struct{ base.NoOperandsInstruction }
+// Store into char array
+type CASTORE struct{ base.NoOperandsInstruction }
 
-func (self *CALOAD) Execute(frame *rtda.Frame) {
+func (self *CASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
+	val := stack.PopInt()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
 	checkNotNil(arrRef)
 	chars := arrRef.Chars()
 	checkIndex(len(chars), index)
-	stack.PushInt(int32(chars[index]))
+	chars[index] = uint16(val)
 }
 
-// Load double from array
-type DALOAD struct{ base.NoOperandsInstruction }
+// Store into double array
+type DASTORE struct{ base.NoOperandsInstruction }
 
-func (self *DALOAD) Execute(frame *rtda.Frame) {
+func (self *DASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
+	val := stack.PopDouble()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
 	checkNotNil(arrRef)
 	doubles := arrRef.Doubles()
 	checkIndex(len(doubles), index)
-	stack.PushDouble(doubles[index])
+	doubles[index] = float64(val)
 }
 
-// Load float from array
-type FALOAD struct{ base.NoOperandsInstruction }
+// Store into float array
+type FASTORE struct{ base.NoOperandsInstruction }
 
-func (self *FALOAD) Execute(frame *rtda.Frame) {
+func (self *FASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
+	val := stack.PopFloat()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
 	checkNotNil(arrRef)
 	floats := arrRef.Floats()
 	checkIndex(len(floats), index)
-	stack.PushFloat(floats[index])
+	floats[index] = float32(val)
 }
 
-// Load int from array
-type IALOAD struct{ base.NoOperandsInstruction }
+// Store into int array
+type IASTORE struct{ base.NoOperandsInstruction }
 
-func (self *IALOAD) Execute(frame *rtda.Frame) {
+func (self *IASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
+	val := stack.PopInt()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
 	checkNotNil(arrRef)
 	ints := arrRef.Ints()
 	checkIndex(len(ints), index)
-	stack.PushInt(ints[index])
+	ints[index] = int32(val)
 }
 
-// Load long from array
-type LALOAD struct{ base.NoOperandsInstruction }
+// Store into long array
+type LASTORE struct{ base.NoOperandsInstruction }
 
-func (self *LALOAD) Execute(frame *rtda.Frame) {
+func (self *LASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
+	val := stack.PopLong()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
 	checkNotNil(arrRef)
 	longs := arrRef.Longs()
 	checkIndex(len(longs), index)
-	stack.PushLong(longs[index])
+	longs[index] = int64(val)
 }
 
-// Load short from array
-type SALOAD struct{ base.NoOperandsInstruction }
+// Store into short array
+type SASTORE struct{ base.NoOperandsInstruction }
 
-func (self *SALOAD) Execute(frame *rtda.Frame) {
+func (self *SASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
+	val := stack.PopInt()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
 	checkNotNil(arrRef)
 	shorts := arrRef.Shorts()
 	checkIndex(len(shorts), index)
-	stack.PushInt(int32(shorts[index]))
+	shorts[index] = int16(val)
 }
 
 func checkNotNil(ref *heap.Object) {

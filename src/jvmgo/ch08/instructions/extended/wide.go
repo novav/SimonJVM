@@ -1,9 +1,3 @@
-
-/*
-    5.11.1　wide指令
-    xinxin.shi
-    2017-06-22 23:12:11
-*/
 package extended 
 
 import "jvmgo/ch08/instructions/base"
@@ -12,6 +6,11 @@ import "jvmgo/ch08/instructions/math"
 import "jvmgo/ch08/instructions/stores"
 import "jvmgo/ch08/rtda"
 
+/*
+    5.11.1　wide指令
+    xinxin.shi
+    2017-06-22 23:12:11
+*/
 // Extend local variable index by additional bytes
 type WIDE struct {
     modifiedInstruction base.Instruction

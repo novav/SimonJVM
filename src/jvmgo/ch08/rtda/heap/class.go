@@ -77,6 +77,9 @@ func (self *Class) Fields() []*Field {
 func (self *Class) Methods() []*Method {
 	return self.methods
 }
+func (self *Class) Loader() *ClassLoader {
+	return self.loader
+}
 func (self *Class) SuperClass() *Class {
 	return self.superClass
 }
@@ -123,6 +126,15 @@ func (self *Class) getStaticMethod(name, descriptor string) *Method {
     return nil
 }
 /* 6.6.1 */
+func (self *Class) isJlObject() bool {
+	return self.name == "java/lang/Object"
+}
+func (self *Class) isJlCloneable() bool {
+	return self.name == "java/lang/Cloneable"
+}
+func (self *Class) isJioSerializable() bool {
+	return self.name == "java/io/Serializable"
+}
 func (self *Class) NewObject() *Object {
     return newObject(self)
 }

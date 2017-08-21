@@ -11,7 +11,7 @@ import "jvmgo/ch08/rtda/heap"
     2017-08-19 22:26:17
 */
 
-// Create new multidimiensional array
+// Create new multidimensional array
 
 type MULTI_ANEW_ARRAY struct { 
     index       uint16
@@ -50,7 +50,7 @@ func newMultiDimensionalArray(counts []int32, arrClass *heap.Class) *heap.Object
     if len(counts) > 1 {
         refs := arr.Refs()
         for i := range refs {
-            refs[i] = newMultiDimensionalArray(counts[1:], arrClass.ComponentClass)
+            refs[i] = newMultiDimensionalArray(counts[1:], arrClass.ComponentClass())
         }
     }    
     return arr
