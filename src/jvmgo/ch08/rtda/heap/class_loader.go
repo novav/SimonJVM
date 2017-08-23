@@ -197,7 +197,10 @@ func initStaticFinalVar(class *Class, field *Field) {
                 val := cp.GetConstant(cpIndex).(float64)
                 vars.SetDouble(slotId, val)
             case "Ljava/lang/String;" :
-                panic("todo") // chap 8
+                goStr := cp.GetConstant(cpIndex).(string)
+                jStr := JString(class.Loader(), goStr)
+                vars.SetRef(slotId, jStr)
+                // panic("todo") // chap 8
         }
     }
 }
