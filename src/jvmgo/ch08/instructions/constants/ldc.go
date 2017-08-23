@@ -8,6 +8,7 @@ package constants
 
 import "jvmgo/ch08/instructions/base"
 import "jvmgo/ch08/rtda"
+import "jvmgo/ch08/rtda/heap"
 
 type LDC struct { base.Index8Instruction }
 type LDC_W struct { base.Index16Instruction }
@@ -27,9 +28,11 @@ func _ldc(frame *rtda.Frame, index uint) {
     switch c.(type) {
         case int32: stack.PushInt(c.(int32))
         case float32: stack.PushFloat(c.(float32))
-        // case string  --> chap8
+        case string:    //   --> chap8
+            internedStr := heap.JString(class.Loader(), c.(string))
+            stack.PushRef(internedStr)
         // case *heap.ClassRef  --> chap9
-	// case MethodType, MethodHandle
+	    // case MethodType, MethodHandle
         default: panic("todo: ldc!")
     }
 }
