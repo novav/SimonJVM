@@ -31,6 +31,18 @@ func NewClassLoader(cp *classpath.Classpath, verboseFlag bool) *ClassLoader {
         verboseFlag:    verboseFlag,
         classMap: make(map[string]*Class),
     }
+    loader.LoadBasicClasses()
+    return loader
+}
+
+func (self *ClassLoader) LoadBasicClasses() {
+    jlClassCalss := self.LoadClass("java/lang/Class")
+    for _, class := range self.classMap {
+        if class.jClass == nil {
+            class.jClass = jlClassCalss.NewObject()
+            class.jClass.extra = class
+        }
+    }
 }
  
 func (self *ClassLoader) LoadClass(name string) *Class {
@@ -38,10 +50,17 @@ func (self *ClassLoader) LoadClass(name string) *Class {
 		// already loaded
         return class // 类已经加载
     }
+    var class *Class
     if name[0] == '[' {
         return self.loadArrayClass(name)
+    } else {
+        return self.loadNonArrayClass(name)
     }
-    return self.loadNonArrayClass(name)
+    if jlClassCalss, ok := self.classMap["java/lang/Class"]; ok {
+        class.jClass = jlClassCalss.NewObject()
+        class.jClass.extra = class
+    }
+    return class
 }
 
 /* 8.2.3 */
