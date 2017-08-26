@@ -5,7 +5,8 @@ type Object struct {
 //     staticVars *Slots
     class   *Class
     // fields  Slots
-    data interface{}
+    data  interface{}
+    extra interface{}
 }
 
 /* 6.6.1*/
