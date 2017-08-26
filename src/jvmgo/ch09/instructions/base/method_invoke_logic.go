@@ -21,13 +21,13 @@ func InvokeMethod(invokerFrame *rtda.Frame, method *heap.Method) {
     }
 
     // 前面的代码不变，下面是 hack
-	if method.IsNative() {
-		if method.Name() == "registerNatives" {
-			thread.PopFrame()
-		} else {
-			panic(fmt.Sprintf("native method: %v.%v%v\n",
-				method.Class().Name(), method.Name(), method.Descriptor()))
-		}
-	}
+    // if method.IsNative() {
+    //     if method.Name() == "registerNatives" {
+    //         thread.PopFrame()
+    //     } else {
+    //         panic(fmt.Sprintf("native method: %v.%v%v\n",
+    //             method.Class().Name(), method.Name(), method.Descriptor()))
+    //     }
+    // }
 }
 
