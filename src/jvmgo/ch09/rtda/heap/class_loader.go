@@ -31,11 +31,12 @@ func NewClassLoader(cp *classpath.Classpath, verboseFlag bool) *ClassLoader {
         verboseFlag:    verboseFlag,
         classMap: make(map[string]*Class),
     }
-    loader.LoadBasicClasses()
+    loader.loadBasicClasses()
+    loader.loadPrimitiveClasses()
     return loader
 }
 
-func (self *ClassLoader) LoadBasicClasses() {
+func (self *ClassLoader) loadBasicClasses() {
     jlClassCalss := self.LoadClass("java/lang/Class")
     for _, class := range self.classMap {
         if class.jClass == nil {
@@ -44,7 +45,25 @@ func (self *ClassLoader) LoadBasicClasses() {
         }
     }
 }
- 
+
+func (self *ClassLoader) loadPrimitiveClasses() {
+    for primitiveType, _ := range primitiveTypes {
+        self.loadPrimitiveClass(primitiveType) // primitiveType = void/int/float etc
+    }
+}
+
+func (self *ClassLoader) loadPrimitiveClass(className string) {
+    class := &Class{
+        accessFlags:    ACC_PUBLIC,
+        name:           className,
+        loader:         self,
+        initStarted:    true,
+    }
+    class.jClass = self.classMap["java/lang/Class"].NewObject()
+    class.jClass.extra = class
+    self.classMap[className] = class
+}
+
 func (self *ClassLoader) LoadClass(name string) *Class {
     if class, ok := self.classMap[name]; ok {
 		// already loaded
