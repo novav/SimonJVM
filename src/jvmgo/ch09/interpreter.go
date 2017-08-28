@@ -27,6 +27,7 @@ func createArgsArray(loader *heap.ClassLoader, args []string) *heap.Object {
 	}
 	return argsArr
 }
+
 func catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {
 		logFrames(thread)

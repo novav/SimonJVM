@@ -14,6 +14,7 @@ func init() {
 }
 
 // public final native Class<?> getClass();
+// ()Ljava/lang/Class;
 func getClass(frame *rtda.Frame) {
     this := frame.LocalVars().GetThis()
     class := this.Class().JClass()

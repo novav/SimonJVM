@@ -19,7 +19,7 @@ func (self *INVOKE_NATIVE) Execute(frame *rtda.Frame) {
     methodDescriptor := method.Descriptor()
     nativeMethod := native.FindNativeMethod(className, methodName, methodDescriptor)
     if nativeMethod == nil {
-        methodInfo := className + "." + methodName + "." + methodDescriptor
+        methodInfo := className + "." + methodName + methodDescriptor
         panic("java.lang.UnsatisfiedLinkError: " + methodInfo)
     }
     nativeMethod(frame)

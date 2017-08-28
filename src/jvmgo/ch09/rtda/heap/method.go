@@ -24,18 +24,40 @@ func newMethods(class *Class, cfMethods []*classfile.MemberInfo) []*Method {
 }
 
 func newMethod(class *Class, cfMethod *classfile.MemberInfo) *Method {
-    methods[i] = &Method{}
-    methods[i].class = class
-    methods[i].copyMemberInfo(cfMethod)
-    methods[i].copyAttributes(cfMethod)
+    method := &Method{}
+    method.class = class
+    method.copyMemberInfo(cfMethod)
+    method.copyAttributes(cfMethod)
     md := parseMethodDescriptor(method.descriptor)
-    methods[i].calcArgSlotCount(md.parameterTypes)
+    method.calcArgSlotCount(md.parameterTypes)
     if method.IsNative() {
         method.injectCodeAttribute(md.returnType)
     }
     return method
 }
 
+
+func (self *Method) copyAttributes(cfMethod *classfile.MemberInfo) {
+    if codeAttr := cfMethod.CodeAttribute(); codeAttr != nil {
+        self.maxStack = codeAttr.MaxStack()
+        self.maxLocals = codeAttr.MaxLocals()
+        self.code = codeAttr.Code()
+    }
+}
+
+
+func (self *Method) calcArgSlotCount(paramTypes []string) {
+    // parsedDescriptor := parseMethodDescriptor(self.descriptor)
+    for _, paramType := range paramTypes {
+        self.argSlotCount ++
+        if paramType == "J" || paramType == "D" {
+            self.argSlotCount++
+        }
+    }
+    if !self.IsStatic() {
+        self.argSlotCount++
+    }
+}
 func (self *Method) injectCodeAttribute(returnType string) {
     self.maxStack = 4
     self.maxLocals = self.argSlotCount
@@ -45,15 +67,7 @@ func (self *Method) injectCodeAttribute(returnType string) {
         case 'F': self.code = []byte{ 0xfe, 0xae} // freturn 
         case 'J': self.code = []byte{ 0xfe, 0xad} // lreturn 
         case 'L', '[': self.code = []byte{ 0xfe, 0xb0} // areturn 
-        default: self.code = []byte{ 0xfe, 0xac} // iteturn
-    }
-}
-
-func (self *Method) copyAttributes(cfMethod *classfile.MemberInfo) {
-    if codeAttr := cfMethod.CodeAttribute(); codeAttr != nil {
-        self.maxStack = codeAttr.MaxStack()
-        self.maxLocals = codeAttr.MaxLocals()
-        self.code = codeAttr.Code()
+        default: self.code = []byte{ 0xfe, 0xac} // ireturn
     }
 }
 
@@ -90,17 +104,4 @@ func (self *Method) Code() []byte {
 
 func (self *Method) ArgSlotCount() uint {
     return self.argSlotCount
-}
-
-func (self *Method) calcArgSlotCount(paramTypes []string) {
-    // parsedDescriptor := parseMethodDescriptor(self.descriptor)
-    for _, paramType := range paramTypes {
-        self.argSlotCount ++
-        if paramType == "J" || paramType == "D" {
-            self.argSlotCount++
-        }
-    }
-    if !self.IsStatic() {
-        self.argSlotCount++
-    }
 }

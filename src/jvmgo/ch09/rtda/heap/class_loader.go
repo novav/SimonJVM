@@ -26,21 +26,22 @@ type ClassLoader struct {
 }
 
 func NewClassLoader(cp *classpath.Classpath, verboseFlag bool) *ClassLoader {
-    return &ClassLoader {
+    loader := &ClassLoader {
         cp : cp,
         verboseFlag:    verboseFlag,
         classMap: make(map[string]*Class),
     }
+
     loader.loadBasicClasses()
     loader.loadPrimitiveClasses()
     return loader
 }
 
 func (self *ClassLoader) loadBasicClasses() {
-    jlClassCalss := self.LoadClass("java/lang/Class")
+    jlClassClass := self.LoadClass("java/lang/Class")
     for _, class := range self.classMap {
         if class.jClass == nil {
-            class.jClass = jlClassCalss.NewObject()
+            class.jClass = jlClassClass.NewObject()
             class.jClass.extra = class
         }
     }
@@ -71,12 +72,12 @@ func (self *ClassLoader) LoadClass(name string) *Class {
     }
     var class *Class
     if name[0] == '[' {
-        return self.loadArrayClass(name)
+        class = self.loadArrayClass(name)
     } else {
-        return self.loadNonArrayClass(name)
+        class = self.loadNonArrayClass(name)
     }
-    if jlClassCalss, ok := self.classMap["java/lang/Class"]; ok {
-        class.jClass = jlClassCalss.NewObject()
+    if jlClassClass, ok := self.classMap["java/lang/Class"]; ok {
+        class.jClass = jlClassClass.NewObject()
         class.jClass.extra = class
     }
     return class
