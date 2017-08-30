@@ -46,7 +46,7 @@ func utf16ToString(s []uint16) string {
     return string(runes)
 }
 
-// todo
+// 9.4.4
 func InternString(jStr *Object) *Object {
 	goStr := GoString(jStr)
 	if internedStr, ok := internedStrings[goStr]; ok {
