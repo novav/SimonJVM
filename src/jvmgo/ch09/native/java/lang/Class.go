@@ -33,6 +33,7 @@ func getPrimitiveClass(frame *rtda.Frame) {
 func getName0(frame *rtda.Frame) {
     this := frame.LocalVars().GetThis()
     class := this.Extra().(*heap.Class)
+
     name := class.JavaName()    //java.lang.Object这样的类名
     nameObj := heap.JString(class.Loader(), name)
     frame.OperandStack().PushRef(nameObj)

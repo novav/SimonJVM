@@ -13,6 +13,8 @@ func init() {
     native.Register("java/lang/System", "arraycopy", "(Ljava/lang/Object;ILjava/lang/Object;II)V", arraycopy)
 }
 
+// public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+// (Ljava/lang/Object;ILjava/lang/Object;II)V
 func arraycopy(frame *rtda.Frame) {
     vars := frame.LocalVars()
     src := vars.GetRef(0)
@@ -24,7 +26,9 @@ func arraycopy(frame *rtda.Frame) {
     if src == nil || dest == nil {
         panic("java.lang.NullPointerException")
     }
-
+	if !checkArrayCopy(src, dest) {
+		panic("java.lang.ArrayStoreException")
+	}
     if srcPos < 0 || destPos < 0 || length < 0 ||
         srcPos + length > src.ArrayLength() ||
         destPos + length > dest.ArrayLength() {
@@ -44,6 +48,6 @@ func checkArrayCopy(src, dest *heap.Object) bool {
         destClass.ComponentClass().IsPrimitive() {
         return srcClass == destClass
     }
-    return ture
+    return true
 }
 

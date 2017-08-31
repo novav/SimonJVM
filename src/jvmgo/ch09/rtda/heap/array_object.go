@@ -34,11 +34,11 @@ func ArrayCopy(src, dst *Object, srcPos, dstPos, length int32) {
     switch src.data.(type) {
     case []int32:
         _src := src.data.([]int32)[srcPos: srcPos + length]
-        _dst := des.data.([]int32)[desPos: desPos + length]
+        _dst := dst.data.([]int32)[dstPos: dstPos + length]
         copy(_dst, _src)
     case []*Object:
         _src := src.data.([]*Object)[srcPos : srcPos + length]
-        _dst := des.data.([]*Object)[desPos : desPos + length]
+        _dst := dst.data.([]*Object)[dstPos : dstPos + length]
         copy(_dst, _src)
     }
 }
