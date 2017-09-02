@@ -4,7 +4,7 @@ import "jvmgo/ch09/rtda"
 
 type Instruction interface {
     FetchOperands(reader *BytecodeReader) // 提取操作数
-    Execute(Frame *rtda.Frame) // 执行命令逻辑
+    Execute(frame *rtda.Frame) // 执行命令逻辑
 }
 
 

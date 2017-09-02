@@ -4,6 +4,7 @@ import "jvmgo/ch09/instructions/base"
 import "jvmgo/ch09/rtda"
 import "jvmgo/ch09/native"
 import _ "jvmgo/ch09/native/java/lang"
+import _ "jvmgo/ch09/native/sun/misc"
 /*
     Chap9.2 
     调用本地方法

@@ -40,3 +40,27 @@ classpath】 L64:java/lang/Appendable.class
 97
 
 D:\Tools\go\workspace\src>
+
+Chap9.4
+D:\Tools\go\workspace\src>..\bin\ch09.exe -Xjre "D:\Tools\Java\jdk1.8.0_77\jre" jvmgo.ch09.StringTest
+true
+false
+true
+
+Chap 9.5
+D:\Tools\go\workspace\src>go install jvmgo\ch09
+
+D:\Tools\go\workspace\src>..\bin\ch09.exe -Xjre "D:\Tools\Java\jdk1.8.0_77\jre" jvmgo.ch09.ObjectTest
+
+1118405232
+jvmgo.ch09.ObjectTest@42a98270
+false
+true
+
+Chap 9.7
+D:\Tools\go\workspace\src>..\bin\ch09.exe -Xjre "D:\Tools\Java\jdk1.8.0_77\jre" jvmgo.ch09.BoxTest
+//cmd out:
+[1, 2, 3]
+1
+2
+3
