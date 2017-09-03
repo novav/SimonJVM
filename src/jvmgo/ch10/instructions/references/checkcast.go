@@ -1,0 +1,31 @@
+package references 
+
+import "jvmgo/ch09/instructions/base"
+import "jvmgo/ch09/rtda"
+import "jvmgo/ch09/rtda/heap"
+
+/*
+    Chap 6.6.4
+    checkcast指令
+    xinxin.shi
+    2017-08-05 22:58:44
+*/
+//Check whether object is of given type
+
+
+type CHECK_CAST struct { base.Index16Instruction }
+
+func (self *CHECK_CAST) Execute(frame *rtda.Frame) {
+   stack := frame.OperandStack()
+   ref := stack.PopRef() 
+   stack.PushRef(ref)
+   if ref == nil {
+        return
+   }
+   cp := frame.Method().Class().ConstantPool()
+   classRef := cp.GetConstant(self.Index).(*heap.ClassRef)
+   class := classRef.ResolvedClass()
+   if !ref.IsInstanceOf(class) {
+        panic("java.lang.ClassCastException")
+   }
+}
