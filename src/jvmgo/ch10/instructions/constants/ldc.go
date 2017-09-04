@@ -6,9 +6,9 @@
 
 package constants
 
-import "jvmgo/ch09/instructions/base"
-import "jvmgo/ch09/rtda"
-import "jvmgo/ch09/rtda/heap"
+import "jvmgo/ch10/instructions/base"
+import "jvmgo/ch10/rtda"
+import "jvmgo/ch10/rtda/heap"
 
 type LDC struct { base.Index8Instruction }
 type LDC_W struct { base.Index16Instruction }

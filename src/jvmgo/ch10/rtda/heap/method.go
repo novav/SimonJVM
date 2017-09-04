@@ -1,6 +1,6 @@
 package heap
 
-import "jvmgo/ch09/classfile"
+import "jvmgo/ch10/classfile"
 /*
     chap 6.1.3
     Method info

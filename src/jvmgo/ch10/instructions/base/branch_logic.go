@@ -4,7 +4,7 @@
     2017-06-18 23:21:22
 */
 package base
-import "jvmgo/ch09/rtda"
+import "jvmgo/ch10/rtda"
 
 func Branch(frame *rtda.Frame, offset int) {
     pc := frame.Thread().PC()

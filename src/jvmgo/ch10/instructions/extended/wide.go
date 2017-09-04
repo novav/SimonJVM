@@ -1,10 +1,10 @@
 package extended 
 
-import "jvmgo/ch09/instructions/base"
-import "jvmgo/ch09/instructions/loads"
-import "jvmgo/ch09/instructions/math"
-import "jvmgo/ch09/instructions/stores"
-import "jvmgo/ch09/rtda"
+import "jvmgo/ch10/instructions/base"
+import "jvmgo/ch10/instructions/loads"
+import "jvmgo/ch10/instructions/math"
+import "jvmgo/ch10/instructions/stores"
+import "jvmgo/ch10/rtda"
 
 /*
     5.11.1　wide指令

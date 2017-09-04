@@ -1,6 +1,6 @@
 package heap 
 import "fmt"
-import "jvmgo/ch09/classfile"
+import "jvmgo/ch10/classfile"
 /*
     Chap 6.2
     运行时常量池

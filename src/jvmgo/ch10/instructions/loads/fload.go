@@ -1,7 +1,7 @@
 package loads
 
-import "jvmgo/ch09/instructions/base"
-import "jvmgo/ch09/rtda"
+import "jvmgo/ch10/instructions/base"
+import "jvmgo/ch10/rtda"
 
 // Load float from local variable
 type FLOAD struct{ base.Index8Instruction }

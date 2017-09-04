@@ -2,9 +2,9 @@ package main
 
 import "fmt"
 import "strings"
-// import "jvmgo/ch09/classfile"
-import "jvmgo/ch09/classpath"
-import "jvmgo/ch09/rtda/heap"
+// import "jvmgo/ch10/classfile"
+import "jvmgo/ch10/classpath"
+import "jvmgo/ch10/rtda/heap"
 
     /*
     xinxin.shi

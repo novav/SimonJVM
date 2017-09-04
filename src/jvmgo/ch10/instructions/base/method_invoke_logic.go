@@ -1,7 +1,7 @@
 package base
 // import "fmt"
-import "jvmgo/ch09/rtda"
-import "jvmgo/ch09/rtda/heap"
+import "jvmgo/ch10/rtda"
+import "jvmgo/ch10/rtda/heap"
 
 /*
     Chap 7.3

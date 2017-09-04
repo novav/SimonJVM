@@ -1,6 +1,6 @@
 package rtda 
 
-import "jvmgo/ch09/rtda/heap"
+import "jvmgo/ch10/rtda/heap"
 
 // stack frame
 type Frame struct {

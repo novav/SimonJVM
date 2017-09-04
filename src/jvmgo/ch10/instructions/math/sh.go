@@ -1,6 +1,6 @@
 package math 
-import "jvmgo/ch09/instructions/base"
-import "jvmgo/ch09/rtda"
+import "jvmgo/ch10/instructions/base"
+import "jvmgo/ch10/rtda"
 
 /*
     chap 5.7.2 位移指令

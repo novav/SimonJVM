@@ -1,6 +1,6 @@
 package native
 
-import "jvmgo/ch09/rtda"
+import "jvmgo/ch10/rtda"
 
 /*
     Chap9.1

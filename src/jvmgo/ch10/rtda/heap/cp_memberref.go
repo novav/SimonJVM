@@ -1,5 +1,5 @@
 package heap
-import "jvmgo/ch09/classfile"
+import "jvmgo/ch10/classfile"
 /*
     Chap6.2.2 
     字段符号引用1

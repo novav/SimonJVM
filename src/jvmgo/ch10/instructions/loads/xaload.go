@@ -5,9 +5,9 @@ package loads
     xinxin.shi
     2017-08-19 18:15:11
 */
-import "jvmgo/ch09/instructions/base"
-import "jvmgo/ch09/rtda"
-import "jvmgo/ch09/rtda/heap"
+import "jvmgo/ch10/instructions/base"
+import "jvmgo/ch10/rtda"
+import "jvmgo/ch10/rtda/heap"
 
 // Load reference from array
 type AALOAD struct{ base.NoOperandsInstruction }

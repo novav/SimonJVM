@@ -4,8 +4,8 @@
     2017-06-18 22:58:48
 */
 package comparisons 
-import "jvmgo/ch09/instructions/base"
-import "jvmgo/ch09/rtda"
+import "jvmgo/ch10/instructions/base"
+import "jvmgo/ch10/rtda"
 
 // Compare float
 type FCMPG struct{ base.NoOperandsInstruction }

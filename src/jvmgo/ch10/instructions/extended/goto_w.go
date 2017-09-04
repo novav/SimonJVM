@@ -4,8 +4,8 @@
     2017-06-22 23:22:51
 */
 package extended 
-import "jvmgo/ch09/instructions/base"
-import "jvmgo/ch09/rtda"
+import "jvmgo/ch10/instructions/base"
+import "jvmgo/ch10/rtda"
 
 // Branch always (wide index)
 type GOTO_W struct {

@@ -1,5 +1,5 @@
 package heap
-import "jvmgo/ch09/classfile"
+import "jvmgo/ch10/classfile"
 
 /*
     6.2.1 

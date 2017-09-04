@@ -1,7 +1,7 @@
 package base
 
-import "jvmgo/ch09/rtda"
-import "jvmgo/ch09/rtda/heap"
+import "jvmgo/ch10/rtda"
+import "jvmgo/ch10/rtda/heap"
 
 // jvms 5.5
 func InitClass(thread *rtda.Thread, class *heap.Class) {

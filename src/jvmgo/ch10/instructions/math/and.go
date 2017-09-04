@@ -1,6 +1,6 @@
 package math 
-import "jvmgo/ch09/instructions/base"
-import "jvmgo/ch09/rtda"
+import "jvmgo/ch10/instructions/base"
+import "jvmgo/ch10/rtda"
 
 /*
     5.7.3　布尔运算指令

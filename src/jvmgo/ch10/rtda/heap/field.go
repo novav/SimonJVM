@@ -1,6 +1,6 @@
 package heap
 
-import "jvmgo/ch09/classfile"
+import "jvmgo/ch10/classfile"
 /*
     6.1.2
     字段

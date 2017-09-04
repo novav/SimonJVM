@@ -1,8 +1,8 @@
 package heap
 
 import "fmt"
-import "jvmgo/ch09/classfile"
-import "jvmgo/ch09/classpath"
+import "jvmgo/ch10/classfile"
+import "jvmgo/ch10/classpath"
 
 /*
     6.3
