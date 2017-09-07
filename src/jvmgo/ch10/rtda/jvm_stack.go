@@ -44,3 +44,9 @@ func (self *Stack) top() *Frame {
 func (self *Stack) isEmpty() bool {
     return self._top == nil
 }
+
+func (slef *Stack) clear() {
+    for !self.isEmpty() {
+        self.pop()
+    }
+}

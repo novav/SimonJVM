@@ -18,3 +18,37 @@ func (self *ATHROW) Executor(frame *rtda.Frame) {
         handleUncaughtException(thread, ex)
     }
 }
+
+func findAndGotoExceptionHandler(thread *rtda.Thread, ex *heap.Object) bool {
+    for {
+        frame := thread.CurrentFrame()
+        pc := frame.NextPC() - 1
+        handlerPC := frame.Method().FindExceptionHandler(ex.Class(), pc)
+        if handlerPC > 0 {
+            stack := frame.OpreandStack()
+            stack.Clear()
+            stack.PushRef(ex)
+            stack.SetNextPC(handlerPC)
+            return true
+        }
+        thread.PopFrame()
+        if thread.IsStackEmpty() {
+            break
+        }
+    }
+    return false
+}
+
+func handleUncaughtException(thread *rtda.Thread, ex *heap.Object) {
+    therad.ClearStack()
+    jMsg := ex.GetRefVar("detailMessage", "Ljava/lang/String;")
+    goMsg := heap.GoString(jMsg)
+    println(ex.Class().JavaName() + ": " + goMsg)
+    stes := reflect.ValueOf(ex.Extra())
+    for i := 0; i < stes.Len(); i++ {
+        ste := stes.Index(i).Interface().(interface {
+            String() string
+            })
+        println("\tat " + ste.String())
+    }
+}
