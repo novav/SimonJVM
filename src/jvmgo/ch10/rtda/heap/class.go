@@ -11,19 +11,20 @@ import "jvmgo/ch10/classfile"
 type Class struct {
     accessFlags     uint16
     name            string // thisClassName
-    superClassName string 
+    superClassName  string 
     interfaceNames  []string
     constantPool    *ConstantPool
     fields          []*Field
     methods         []*Method 
     loader          *ClassLoader
-    superClass     *Class
+    superClass      *Class
     interfaces      []*Class 
     instanceSlotCount   uint 
     staticSlotCount     uint
     staticVars          Slots
     initStarted       bool
     jClass          *Object // java.lang.Class实例
+    sourceFile      string
 }
 
 // ClassFile -> Class 结构体
@@ -37,6 +38,7 @@ func newClass(cf *classfile.ClassFile) *Class {
     class.constantPool = newConstantPool(class, cf.ConstantPool()) // see 6.2小节
     class.fields = newFields(class, cf.Fields()) // see 6.1.2
     class.methods = newMethods(class, cf.Methods()) // 6.1.3
+    class.sourceFile = getSourceFile(cf)
     return class
 }
 
@@ -198,4 +200,11 @@ func (self *Class) GetRefVar(fieldName, fieldDescriptor string) *Object {
 func (self *Class) SetRefVar(fieldName, fieldDescriptor string, ref *Object) {
 	field := self.getField(fieldName, fieldDescriptor, true)
 	self.staticVars.SetRef(field.slotId, ref)
+}
+
+func getSourceFile(cf *classfile.ClassFile) string {
+    if sfAttr := cf.SourceFileAttribute(); sfAttr != nil {
+        return sfAttr.FileName()
+    }
+    return "Unknown"
 }
