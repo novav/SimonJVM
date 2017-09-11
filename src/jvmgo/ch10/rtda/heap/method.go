@@ -46,7 +46,7 @@ func (self *Method) copyAttributes(cfMethod *classfile.MemberInfo) {
         self.code = codeAttr.Code()
         self.lineNumberTable = codeAttr.LineNumberTableAttribute()
         self.exceptionTable = newExceptionTable(codeAttr.ExceptionTable(),
-            self.class.constanstPool)
+            self.class.constantPool)
     }
 }
 
@@ -111,7 +111,7 @@ func (self *Method) ArgSlotCount() uint {
     return self.argSlotCount
 }
 
-func (self Method) FindExceptionHandler(exClass *Class, pc int) int {
+func (self *Method) FindExceptionHandler(exClass *Class, pc int) int {
     handler := self.exceptionTable.findExceptionHandler(exClass, pc)
     if handler != nil {
         return handler.handlerPc

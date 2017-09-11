@@ -8,9 +8,9 @@ package heap
 */
 import "jvmgo/ch10/classfile"
 
-type ExceptionTable []*ExceptionTable
+type ExceptionTable []*ExceptionHandler
 
-type  ExceptionTable struct {
+type ExceptionHandler struct {
     startPc    int
     endPc      int
     handlerPc  int
@@ -28,6 +28,7 @@ func newExceptionTable(entries []*classfile.ExceptionTableEntry,
             catchType:    getCatchType(uint(entry.CatchType()), cp),
         }
     }
+    return table
 }
 
 func getCatchType(index uint, cp *ConstantPool) *ClassRef {
@@ -37,8 +38,8 @@ func getCatchType(index uint, cp *ConstantPool) *ClassRef {
     return cp.GetConstant(index).(*ClassRef)
 }
 
-func (self *ExceptionTable)findExceptionHandler(exClass *Class,
-    pc int) *ExceptionHandler {
+func (self ExceptionTable) findExceptionHandler(exClass *Class,
+            pc int) *ExceptionHandler {
     for _, handler := range self {
         if pc >= handler.startPc && pc < handler.endPc {
             if handler.catchType == nil {

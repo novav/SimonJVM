@@ -8,12 +8,13 @@ import "jvmgo/ch10/rtda/heap"
 // Throw exception or error
 type ATHROW struct { base.NoOperandsInstruction }
 
-func (self *ATHROW) Executor(frame *rtda.Frame) {
-    ex := frame.OpreandStack().PopRef()
+func (self *ATHROW) Execute(frame *rtda.Frame) {
+    ex := frame.OperandStack().PopRef()
     if ex == nil {
        panic("java.lang.NullPointerException")
     }
-    thread := frame.Thread();
+
+    thread := frame.Thread()
     if !findAndGotoExceptionHandler(thread, ex) {
         handleUncaughtException(thread, ex)
     }
@@ -25,10 +26,10 @@ func findAndGotoExceptionHandler(thread *rtda.Thread, ex *heap.Object) bool {
         pc := frame.NextPC() - 1
         handlerPC := frame.Method().FindExceptionHandler(ex.Class(), pc)
         if handlerPC > 0 {
-            stack := frame.OpreandStack()
+            stack := frame.OperandStack()
             stack.Clear()
             stack.PushRef(ex)
-            stack.SetNextPC(handlerPC)
+            frame.SetNextPC(handlerPC)
             return true
         }
         thread.PopFrame()
@@ -40,10 +41,12 @@ func findAndGotoExceptionHandler(thread *rtda.Thread, ex *heap.Object) bool {
 }
 
 func handleUncaughtException(thread *rtda.Thread, ex *heap.Object) {
-    therad.ClearStack()
+    thread.ClearStack()
+
     jMsg := ex.GetRefVar("detailMessage", "Ljava/lang/String;")
     goMsg := heap.GoString(jMsg)
     println(ex.Class().JavaName() + ": " + goMsg)
+
     stes := reflect.ValueOf(ex.Extra())
     for i := 0; i < stes.Len(); i++ {
         ste := stes.Index(i).Interface().(interface {

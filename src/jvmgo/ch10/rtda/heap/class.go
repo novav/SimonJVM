@@ -42,6 +42,13 @@ func newClass(cf *classfile.ClassFile) *Class {
     return class
 }
 
+func getSourceFile(cf *classfile.ClassFile) string {
+    if sfAttr := cf.SourceFileAttribute(); sfAttr != nil {
+        return sfAttr.FileName()
+    }
+    return "Unknown"
+}
+
 func (self *Class) IsPublic() bool {
     return 0 != self.accessFlags&ACC_PUBLIC
 }
@@ -79,6 +86,9 @@ func (self *Class) Fields() []*Field {
 }
 func (self *Class) Methods() []*Method {
 	return self.methods
+}
+func (self *Class) SourceFile() string {
+	return self.sourceFile
 }
 func (self *Class) Loader() *ClassLoader {
 	return self.loader
@@ -200,11 +210,4 @@ func (self *Class) GetRefVar(fieldName, fieldDescriptor string) *Object {
 func (self *Class) SetRefVar(fieldName, fieldDescriptor string, ref *Object) {
 	field := self.getField(fieldName, fieldDescriptor, true)
 	self.staticVars.SetRef(field.slotId, ref)
-}
-
-func getSourceFile(cf *classfile.ClassFile) string {
-    if sfAttr := cf.SourceFileAttribute(); sfAttr != nil {
-        return sfAttr.FileName()
-    }
-    return "Unknown"
 }
