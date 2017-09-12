@@ -4,28 +4,17 @@ import "fmt"
 import "jvmgo/ch11/instructions"
 import "jvmgo/ch11/instructions/base"
 import "jvmgo/ch11/rtda"
-import "jvmgo/ch11/rtda/heap"
 
 func interpret(method *heap.Method, logInst bool, args []string) {
-	thread := rtda.NewThread()
-	frame := thread.NewFrame(method)
-	thread.PushFrame(frame)
+    // thread := rtda.NewThread()
+    // frame := thread.NewFrame(method)
+    // thread.PushFrame(frame)
 
-	jArgs := createArgsArray(method.Class().Loader(), args)
-	frame.LocalVars().SetRef(0, jArgs)
+    // jArgs := createArgsArray(method.Class().Loader(), args)
+    // frame.LocalVars().SetRef(0, jArgs)
 
-	defer catchErr(thread)
-	loop(thread, logInst)
-}
-
-func createArgsArray(loader *heap.ClassLoader, args []string) *heap.Object {
-	stringClass := loader.LoadClass("java/lang/String")
-	argsArr := stringClass.ArrayClass().NewArray(uint(len(args)))
-	jArgs := argsArr.Refs()
-	for i, arg := range args {
-		jArgs[i] = heap.JString(loader, arg)
-	}
-	return argsArr
+    defer catchErr(thread) 
+    loop(thread, logInst)
 }
 
 func catchErr(thread *rtda.Thread) {

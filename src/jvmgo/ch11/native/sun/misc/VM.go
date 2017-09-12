@@ -3,7 +3,7 @@ package misc
 import "jvmgo/ch11/instructions/base"
 import "jvmgo/ch11/native"
 import "jvmgo/ch11/rtda"
-import "jvmgo/ch11/rtda/heap"
+// import "jvmgo/ch11/rtda/heap"
 
 func init() {
     native.Register("sun/misc/VM", "initialize", "()V", initialize)
@@ -12,7 +12,7 @@ func init() {
 // ==> VM.savedProps.setProperty("foo", "bar")
 // private static void initialize
 func initialize(frame *rtda.Frame) {
-    vmClass := frame.Method().Class()
+    /*vmClass := frame.Method().Class()
     savedProps := vmClass.GetRefVar("savedProps", "Ljava/util/Properties;")
     key := heap.JString(vmClass.Loader(), "foo")
     val := heap.JString(vmClass.Loader(), "bar")
@@ -24,5 +24,9 @@ func initialize(frame *rtda.Frame) {
     propsClass := vmClass.Loader().LoadClass("java/util/Properties")
     setPropMethod := propsClass.GetInstanceMethod("setProperty",
         "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
-    base.InvokeMethod(frame, setPropMethod)
+    base.InvokeMethod(frame, setPropMethod)*/
+    classLoader := frame.Method().Class().Loader()
+    jlSysClass := classLoader.LoadClass("java/lang/System")
+    initSysClass := jlSysClass.GetStaticMethod("initializeSystemClass", "()V")
+    base.InvokeMethod(frame, initSysClass)
 }
