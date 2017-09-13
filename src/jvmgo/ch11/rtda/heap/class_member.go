@@ -10,6 +10,8 @@ type ClassMember struct {
     accessFlags     uint16
     name            string
     descriptor      string
+    signature      string
+	annotationData []byte // RuntimeVisibleAnnotations_attribute
     class           *Class // 存放class结构体指针
 }
 
@@ -39,11 +41,20 @@ func (self *ClassMember) IsSynthetic() bool {
 }
 
 // getters
+func (self *ClassMember) AccessFlags() uint16 {
+	return self.accessFlags
+}
 func (self *ClassMember) Name() string {
 	return self.name
 }
 func (self *ClassMember) Descriptor() string {
 	return self.descriptor
+}
+func (self *ClassMember) Signature() string {
+	return self.signature
+}
+func (self *ClassMember) AnnotationData() []byte {
+	return self.annotationData
 }
 func (self *ClassMember) Class() *Class {
 	return self.class

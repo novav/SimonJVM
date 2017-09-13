@@ -9,6 +9,7 @@ import "jvmgo/ch11/rtda/heap"
     2017-08-12 00:35:38
 */
 func InvokeMethod(invokerFrame *rtda.Frame, method *heap.Method) {
+	//_logInvoke(callerFrame.Thread().StackDepth(), method)
     thread := invokerFrame.Thread()
     newFrame := thread.NewFrame(method)
     thread.PushFrame(newFrame)

@@ -10,7 +10,8 @@ func init() {
 }
 
 // ==> VM.savedProps.setProperty("foo", "bar")
-// private static void initialize
+// private static native void initialize();
+// ()V
 func initialize(frame *rtda.Frame) {
     /*vmClass := frame.Method().Class()
     savedProps := vmClass.GetRefVar("savedProps", "Ljava/util/Properties;")

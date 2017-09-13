@@ -16,6 +16,7 @@ type Class struct {
     constantPool    *ConstantPool
     fields          []*Field
     methods         []*Method 
+	sourceFile        string
     loader          *ClassLoader
     superClass      *Class
     interfaces      []*Class 
@@ -24,7 +25,6 @@ type Class struct {
     staticVars          Slots
     initStarted       bool
     jClass          *Object // java.lang.Class实例
-    sourceFile      string
 }
 
 // ClassFile -> Class 结构体
@@ -75,6 +75,9 @@ func (self *Class) IsEnum() bool {
 }
 
 // getters
+func (self *Class) AccessFlags() uint16 {
+	return self.accessFlags
+}
 func (self *Class) Name() string {
 	return self.name
 }
@@ -95,6 +98,9 @@ func (self *Class) Loader() *ClassLoader {
 }
 func (self *Class) SuperClass() *Class {
 	return self.superClass
+}
+func (self *Class) Interfaces() []*Class {
+	return self.interfaces
 }
 func (self *Class) StaticVars() Slots {
 	return self.staticVars
@@ -125,23 +131,11 @@ func (self *Class) GetPackageName() string {
 
 
 func (self *Class) GetMainMethod() *Method {
-    return self.getStaticMethod("main", "([Ljava/lang/String;)V")
+    return self.getMethod("main", "([Ljava/lang/String;)V", true)
 }
 func (self *Class) GetClinitMethod() *Method {
-	return self.getStaticMethod("<clinit>", "()V")
+	return self.getMethod("<clinit>", "()V", true)
 }
-
-func (self *Class) getStaticMethod(name, descriptor string) *Method {
-    for _, method := range self.methods {
-        if method.IsStatic() && 
-            method.name == name && 
-            method.descriptor == descriptor {
-                return method
-        }
-    }
-    return nil
-}
-
 
 func (self *Class) getMethod(name, descriptor string, isStatic bool) *Method {
 	for c := self; c != nil; c = c.superClass {
@@ -203,6 +197,10 @@ func (self *Class) GetInstanceMethod(name, descriptor string) *Method {
 	return self.getMethod(name, descriptor, false)
 }
 
+func (self *Class) GetStaticMethod(name, descriptor string) *Method {
+    return self.getMethod(name, descriptor, true)
+}
+
 func (self *Class) GetRefVar(fieldName, fieldDescriptor string) *Object {
 	field := self.getField(fieldName, fieldDescriptor, true)
 	return self.staticVars.GetRef(field.slotId)
@@ -210,4 +208,46 @@ func (self *Class) GetRefVar(fieldName, fieldDescriptor string) *Object {
 func (self *Class) SetRefVar(fieldName, fieldDescriptor string, ref *Object) {
 	field := self.getField(fieldName, fieldDescriptor, true)
 	self.staticVars.SetRef(field.slotId, ref)
+}
+
+func (self *Class) GetFields(publicOnly bool) []*Field {
+	if publicOnly {
+		publicFields := make([]*Field, 0, len(self.fields))
+		for _, field := range self.fields {
+			if field.IsPublic() {
+				publicFields = append(publicFields, field)
+			}
+		}
+		return publicFields
+	} else {
+		return self.fields
+	}
+}
+
+func (self *Class) GetConstructor(descriptor string) *Method {
+	return self.GetInstanceMethod("<init>", descriptor)
+}
+
+func (self *Class) GetConstructors(publicOnly bool) []*Method {
+	constructors := make([]*Method, 0, len(self.methods))
+	for _, method := range self.methods {
+		if method.isConstructor() {
+			if !publicOnly || method.IsPublic() {
+				constructors = append(constructors, method)
+			}
+		}
+	}
+	return constructors
+}
+
+func (self *Class) GetMethods(publicOnly bool) []*Method {
+	methods := make([]*Method, 0, len(self.methods))
+	for _, method := range self.methods {
+		if !method.isClinit() && !method.isConstructor() {
+			if !publicOnly || method.IsPublic() {
+				methods = append(methods, method)
+			}
+		}
+	}
+	return methods
 }

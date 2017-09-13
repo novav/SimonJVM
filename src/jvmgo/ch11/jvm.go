@@ -31,14 +31,14 @@ func (self *JVM) start() {
 func (self *JVM)initVM() {
     vmClass := self.classLoader.LoadClass("sun/misc/VM")
     base.InitClass(self.mainThread, vmClass)
-    interpret(self.mainThread, self.cmd.verboseClassFlag)
+	interpret(self.mainThread, self.cmd.verboseInstFlag)
 }
 
 func (self *JVM) execMain() {
     // cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
     // classLoader := heap.NewClassLoader(cp, cmd.verboseClassFlag)
 
-    className := strings.Replace(cmd.class, ".", "/", -1)
+    className := strings.Replace(self.cmd.class, ".", "/", -1)
     mainClass := self.classLoader.LoadClass(className)
     mainMethod := mainClass.GetMainMethod()
     fmt.Printf("execMain】classLoaer:" + className + "\n")
@@ -50,12 +50,12 @@ func (self *JVM) execMain() {
     frame := self.mainThread.NewFrame(mainMethod)
     frame.LocalVars().SetRef(0, argsArr) // 给main()方法传递args参数
     self.mainThread.PushFrame(frame)
-    interpret(self.mainMethod, self.cmd.verboseInstFlag)
+    interpret(self.mainThread, self.cmd.verboseInstFlag)
 }
 
 
 func (self *JVM)createArgsArray() *heap.Object {
-    stringClass := self.loader.LoadClass("java/lang/String")
+    stringClass := self.classLoader.LoadClass("java/lang/String")
     argsLen := uint(len(self.cmd.args))
     argsArr := stringClass.ArrayClass().NewArray(argsLen)
     jArgs := argsArr.Refs()

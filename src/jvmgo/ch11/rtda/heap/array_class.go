@@ -6,6 +6,16 @@ package heap
     xinxin.shi
     2017-08-16 22:55:36
 */
+
+
+func (self *Class) IsArray() bool {
+    return self.name[0] == '['
+}
+
+func (self *Class) ComponentClass() *Class {
+    componentClassName := getComponentClassName(self.name)
+    return self.loader.LoadClass(componentClassName)
+}
 func (self *Class) NewArray(count uint) *Object {
     if !self.IsArray() {
         panic("Not array class:" + self.name)
@@ -23,11 +33,7 @@ func (self *Class) NewArray(count uint) *Object {
     }
 }
 
-func (self *Class) IsArray() bool {
-    return self.name[0] == '['
-}
 
-func (self *Class) ComponentClass() *Class {
-    ComponentClassName := getComponentClassName(self.name)
-    return self.loader.LoadClass(ComponentClassName)
+func NewByteArray(loader *ClassLoader, bytes []int8) *Object {
+	return &Object{loader.LoadClass("[B"), bytes, nil}
 }

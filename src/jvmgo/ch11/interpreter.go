@@ -5,7 +5,7 @@ import "jvmgo/ch11/instructions"
 import "jvmgo/ch11/instructions/base"
 import "jvmgo/ch11/rtda"
 
-func interpret(method *heap.Method, logInst bool, args []string) {
+func interpret(thread *rtda.Thread, logInst bool) {
     // thread := rtda.NewThread()
     // frame := thread.NewFrame(method)
     // thread.PushFrame(frame)
