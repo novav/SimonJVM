@@ -11,6 +11,7 @@ import "jvmgo/ch11/rtda/heap"
     xinxin.shi
     2017-09-04 22:36:45
 */
+const jlThrowable = "java/lang/Throwable"
 
 type StackTraceElement struct {
     fileName        string
@@ -25,11 +26,11 @@ func (self *StackTraceElement) String() string {
 }
 
 func init() {
-    native.Register("java/lang/Throwable", "fillInStackTrace",
-        "(I)Ljava/lang/Throwable;", fillInStackTrace)
+	native.Register(jlThrowable, "fillInStackTrace", "(I)Ljava/lang/Throwable;", fillInStackTrace)
 }
 
-// private native Throwable fillInStackTrace(int dummy)
+// private native Throwable fillInStackTrace(int dummy);
+// (I)Ljava/lang/Throwable;
 func fillInStackTrace(frame *rtda.Frame) {
     // 10.5 
     this := frame.LocalVars().GetThis()

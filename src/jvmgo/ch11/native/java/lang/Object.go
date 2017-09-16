@@ -13,9 +13,10 @@ import "jvmgo/ch11/rtda"
 const jlObject = "java/lang/Object"
 
 func init() {
-    native.Register(jlObject, "getClass", "()Ljava/lang/Class;", getClass)
-    native.Register(jlObject, "hashCode", "()I", hashCode)
-    native.Register(jlObject, "clone", "()Ljava/lang/Object;", clone)
+	native.Register(jlObject, "getClass", "()Ljava/lang/Class;", getClass)
+	native.Register(jlObject, "hashCode", "()I", hashCode)
+	native.Register(jlObject, "clone", "()Ljava/lang/Object;", clone)
+	native.Register(jlObject, "notifyAll", "()V", notifyAll)
 }
 
 // public final native Class<?> getClass();
@@ -43,4 +44,10 @@ func clone(frame *rtda.Frame) {
         panic("java.lang.CloneNotSupportedException")
     }
     frame.OperandStack().PushRef(this.Clone())
+}
+
+// public final native void notifyAll();
+// ()V
+func notifyAll(frame *rtda.Frame) {
+	// todo
 }
